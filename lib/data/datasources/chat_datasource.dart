@@ -12,15 +12,10 @@ class ChatDataSource {
   ChatDataSource(this.socket, this.streamSocket);
 
   Stream<String> listen() {
-    socket.onConnect((_) {
-      print('connected');
-      socket.emit('msg', 'test');
-    });
     socket.on('chat message', (data) {
       debugPrint("fromServer:" + data);
       streamSocket.addResponse.call(data);
     });
-    socket.onDisconnect((_) => print('disconnect'));
     return streamSocket.getResponse;
   }
 
@@ -32,4 +27,41 @@ class ChatDataSource {
       return Future.value(false);
     }
   }
+
+  void disposeAll(Function action){
+    socket.onDisconnect((_) {
+      debugPrint('onDisconnect');
+      action.call();
+    });
+    socket.disconnect();
+    socket.dispose();
+    streamSocket.dispose();
+  }
+
+  void connectToSocket(Function action){
+    socket.onConnect((_) {
+      debugPrint('onConnect');
+      action.call();
+    });
+    socket.connect();
+  }
+
+  void socketConnecting(Function action){
+    socket.onConnecting((_) {
+      debugPrint('onConnecting');
+      action.call();
+    });
+  }
+
+  socketConnectionFailed(Function action) {
+    socket.onConnectError((_) {
+      debugPrint('onConnectError');
+      action.call();
+    });
+    socket.onConnectTimeout((_) {
+      debugPrint('onConnectTimeout');
+      action.call();
+    });
+  }
+
 }

@@ -7,8 +7,10 @@ class ChatRepository{
   ChatRepository(this._chatDataSource);
 
   Stream<String> listen() => _chatDataSource.listen();
-  void socketConnect() => _chatDataSource.socket.connect();
-  void socketDisconnect() => _chatDataSource.socket.disconnect();
+  void socketConnected(Function action) => _chatDataSource.connectToSocket(action);
+  void socketConnecting(Function action) => _chatDataSource.socketConnecting(action);
+  void socketConnectionFailed(Function action) => _chatDataSource.socketConnectionFailed(action);
+  void socketDisconnected(Function action) => _chatDataSource.disposeAll(action);
   Future<bool> sendMessage(String message) => _chatDataSource.sendMessage(message);
 
 }
