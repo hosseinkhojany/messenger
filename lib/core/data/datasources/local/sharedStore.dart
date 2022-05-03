@@ -1,5 +1,5 @@
 import 'package:hive/hive.dart';
-import 'package:telegram_flutter/data/config/hive_config.dart';
+import 'package:telegram_flutter/core/data/config/hive_config.dart';
 
 const USER_TOKEN = "USER_TOKEN";
 const USER = "USER";

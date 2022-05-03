@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:telegram_flutter/app/router.dart';
-import 'package:telegram_flutter/data/datasources/local/sharedStore.dart';
+import 'package:telegram_flutter/core/controller/chat_controller.dart';
+
+import '../../core/data/datasources/local/sharedStore.dart';
 
 class EditNamePage extends StatefulWidget {
   const EditNamePage({Key? key}) : super(key: key);
@@ -12,7 +14,7 @@ class EditNamePage extends StatefulWidget {
 
 class EditNameStater extends State<EditNamePage> {
   TextEditingController textEditingController = TextEditingController();
-
+  ChatController chatController = Get.find<ChatController>();
   @override
   void dispose() {
     textEditingController.dispose();
@@ -52,6 +54,8 @@ class EditNameStater extends State<EditNamePage> {
                   child: MaterialButton(
                     onPressed: () {
                       if(textEditingController.text.isNotEmpty){
+                        chatController.userName = textEditingController.text.toString();
+                        chatController.sendImJoined();
                         Navigator.pushNamed(context, CHAT_PAGE);
                       }else{
                         Get.snackbar("Error", "Enter a name");

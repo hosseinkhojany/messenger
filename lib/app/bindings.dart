@@ -1,10 +1,10 @@
 import 'package:get/get.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:socket_io_client/socket_io_client.dart';
-import 'package:telegram_flutter/controller/chat_controller.dart';
-import 'package:telegram_flutter/data/config/stream_socket.dart';
-import 'package:telegram_flutter/data/datasources/chat_datasource.dart';
-import 'package:telegram_flutter/data/repositories/chat_repository.dart';
+import 'package:telegram_flutter/core/controller/chat_controller.dart';
+import 'package:telegram_flutter/core/data/config/stream_socket.dart';
+import 'package:telegram_flutter/core/data/datasources/remote/chat_datasource.dart';
+import 'package:telegram_flutter/core/data/repositories/chat_repository.dart';
 
 class AppBindings extends Bindings {
   // Dio _dio() {

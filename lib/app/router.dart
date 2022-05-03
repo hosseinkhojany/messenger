@@ -1,7 +1,7 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
-import 'package:telegram_flutter/ui/chat_page.dart';
-import 'package:telegram_flutter/ui/edit_name_page.dart';
+import 'package:telegram_flutter/presentation/chatPage/chat_page.dart';
+import 'package:telegram_flutter/presentation/editNamePage/edit_name_page.dart';
 
 
 const String EDIT_NAME_PAGE = "/editName";
