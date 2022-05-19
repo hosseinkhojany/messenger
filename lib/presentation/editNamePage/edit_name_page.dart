@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:telegram_flutter/app/router.dart';
-import 'package:telegram_flutter/core/controller/chat_controller.dart';
+import 'package:telegram_flutter/presentation/editNamePage/ext.dart';
 
+import '../../core/utils/ext.dart';
+import '../chatPage/components/cutted_button.dart';
+import '../chatPage/components/cutted_text_field.dart';
+import '../globalWidgets/polygon/polygon_border.dart';
+import '../sharedBloc/socket_bloc.dart';
 import '../../core/data/datasources/local/sharedStore.dart';
 
 class EditNamePage extends StatefulWidget {
@@ -13,82 +19,187 @@ class EditNamePage extends StatefulWidget {
 }
 
 class EditNameStater extends State<EditNamePage> {
-  TextEditingController textEditingController = TextEditingController();
-  ChatController chatController = Get.find<ChatController>();
+  TextEditingController userNameEditingController = TextEditingController();
+  TextEditingController passwordEditingController = TextEditingController();
+
+  final double textFieldHeight = 50;
+  final double formSize = 350;
+  bool createAccount = false;
+
   @override
   void dispose() {
-    textEditingController.dispose();
+    userNameEditingController.dispose();
+    passwordEditingController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    if(SharedStore.getUserName().isNotEmpty){
+    if (SharedStore.getUserName().isNotEmpty) {
       Navigator.pushNamed(context, CHAT_PAGE);
     }
-    return Scaffold(
-      body: Center(
-        child: Container(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SizedBox(
-                width: 300,
-                child: Padding(
-                  padding: EdgeInsets.all(20),
-                  child: TextFormField(
-                    maxLines: null,
-                    keyboardType: TextInputType.multiline,
-                    controller: textEditingController,
-                    decoration: const InputDecoration(
-                      border: UnderlineInputBorder(),
-                      labelText: 'Enter your username',
+    return BlocBuilder<SocketBloc, SocketState>(
+      builder: (context, state) {
+        bool loading = false;
+        if (state is UserJoinedState) {
+          loading = state.loading;
+          if (state.success) {
+            Future.delayed(const Duration(seconds: 1), () {
+              Navigator.pushReplacementNamed(context, CHAT_PAGE);
+            });
+          }
+        }
+        return Scaffold(
+          backgroundColor: HexColor("1D1D26"),
+          body: Stack(
+              children: [
+                Center(
+                  child: Container(
+                    width: formSize,
+                    height: formSize,
+                    child: Stack(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(
+                              top: 75, right: 6, left: formSize / 2 - 30),
+                          child: Text(
+                            createAccount ? "Sign Up" : "Sign In",
+                            style: TextStyle(color: Colors.white, fontSize: 20),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              top: (formSize - (textFieldHeight + 70)) / 2,
+                              right: 50,
+                              left: 80 / 2),
+                          child: CutCornerTextField(
+                            controller: userNameEditingController,
+                            hintText: "username",
+                            width: 200,
+                            height: textFieldHeight,
+                            leftIcon: Icons.person_pin,
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              top: (formSize + textFieldHeight - 50) / 2,
+                              right: 50,
+                              left: 80 / 2),
+                          child: CutCornerTextField(
+                            isPassword: true,
+                            controller: passwordEditingController,
+                            hintText: "password",
+                            width: 200,
+                            height: textFieldHeight,
+                            leftIcon: Icons.lock,
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              top: ((formSize + textFieldHeight) / 2) +
+                                  textFieldHeight -
+                                  15,
+                              right: 50,
+                              left: 210 / 2),
+                          child: CutCornerButton(
+                            width: 90,
+                            height: textFieldHeight,
+                            text: createAccount ? "Create" : "LOGIN",
+                            background: HexColor("#186B89"),
+                            textStyle:
+                                TextStyle(color: Colors.white, fontSize: 20),
+                            autoLoading: false,
+                            loading: loading,
+                            onClick: () {
+                              if (passwordEditingController.text.length > 0 &&
+                                  userNameEditingController.text.length > 0) {
+                                context.sendImJoined(
+                                    createAccount,
+                                    userNameEditingController.text,
+                                    passwordEditingController.text);
+                              } else {
+                                Get.showSnackbar(GetSnackBar(
+                                  message: "do all fields fill",
+                                ));
+                              }
+                            },
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              top: ((formSize + textFieldHeight) / 2) +
+                                  textFieldHeight +
+                                  15,
+                              right: 50,
+                              left: 110 / 2),
+                          child: Center(
+                            child: InkWell(
+                              onTap: () {
+                                setState(() {
+                                  createAccount = !createAccount;
+                                });
+                              },
+                              child: Text(
+                                createAccount
+                                    ? "I have account"
+                                    : "Create Account",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    decoration: ShapeDecoration(
+                      shadows: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.8),
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset: Offset(0, 1),
+                        ),
+                      ],
+                      color: HexColor("#55D4AB"),
+                      shape: PolygonBorder(
+                        rotate: 90,
+                        borderRadius: 12,
+                        sides: 6,
+                        side: BorderSide.none,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              SizedBox(
-                width: 150,
-                child: Padding(
-                  padding: EdgeInsets.all(20),
-                  child: MaterialButton(
-                    onPressed: () {
-                      if(textEditingController.text.isNotEmpty){
-                        chatController.userName = textEditingController.text.toString();
-                        chatController.sendImJoined();
-                        Navigator.pushNamed(context, CHAT_PAGE);
-                      }else{
-                        Get.snackbar("Error", "Enter a name");
-                      }
-                    },
-                    elevation: 5,
-                    textColor: Colors.black,
-                    animationDuration: Duration(seconds: 2),
-                    highlightElevation: 5,
-                    child: Text("Let's go"),
+                Center(
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: formSize - 30),
+                    child: Container(
+                      child: Icon(Icons.verified_user),
+                      width: 90,
+                      height: 90,
+                      decoration: ShapeDecoration(
+                        shadows: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.2),
+                            spreadRadius: 5,
+                            blurRadius: 7,
+                            offset: Offset(0, 3),
+                          ),
+                        ],
+                        color: HexColor("#00BD8F"),
+                        shape: PolygonBorder(
+                          rotate: 90,
+                          borderRadius: 12,
+                          sides: 6,
+                          side: BorderSide(color: Colors.white70, width: 3.0),
+                        ),
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(10),
-                topRight: Radius.circular(10),
-                bottomLeft: Radius.circular(10),
-                bottomRight: Radius.circular(10)),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.5),
-                spreadRadius: 2,
-                blurRadius: 5,
-                offset: Offset(0, 1), // changes position of shadow
-              ),
-            ],
-          ),
-        ),
-      ),
+              ],
+            ),
+        );
+      },
     );
   }
 }

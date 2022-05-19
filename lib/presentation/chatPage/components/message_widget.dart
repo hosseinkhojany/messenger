@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:telegram_flutter/core/data/models/message.dart';
+import 'package:telegram_flutter/core/utils/ext.dart';
 
 class MessageWidget extends StatefulWidget {
   double width = 0, height = 60;
@@ -40,7 +41,7 @@ class _MyWidgetState extends State<MessageWidget> {
               color: Colors.pinkAccent,
               child: Material(
                 clipBehavior: Clip.antiAlias,
-                color: Colors.white,
+                color: "#FAFAFA".toColor(),
                 borderRadius: widget.message.my
                     ? BorderRadius.only(
                   bottomRight: Radius.circular(widget.height / 2),

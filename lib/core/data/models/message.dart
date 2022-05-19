@@ -58,9 +58,11 @@ class UserTypingStop extends MessageModel{
 class UserLeft extends MessageModel{
   String? userName;
   int? numUsers;
-  UserLeft({String? userName, int? numUsers}){
+  bool my = false;
+  UserLeft({String? userName, int? numUsers, bool? my}){
     this.userName = userName ?? "";
     this.numUsers = numUsers ?? 1;
+    this.my = my ?? false;
   }
   factory UserLeft.fromJson(Map<String, dynamic> json){
     return UserLeft(
@@ -72,9 +74,11 @@ class UserLeft extends MessageModel{
 class UserJoined extends MessageModel{
   String? userName;
   int? numUsers;
-  UserJoined({String? userName, int? numUsers}){
+  bool my = false;
+  UserJoined({String? userName, int? numUsers, bool? my}){
     this.userName = userName ?? "";
     this.numUsers = numUsers ?? 1;
+    this.my = my ?? false;
   }
   factory UserJoined.fromJson(Map<String, dynamic> json){
     return UserJoined(

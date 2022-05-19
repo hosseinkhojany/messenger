@@ -16,17 +16,28 @@ dependencies:
   hive: ^2.0.5
   cupertino_icons: ^1.0.2
   animations: ^2.0.2
-  #state managers
   get: ^4.6.1
+  flutter_screenutil: ^5.5.2
+  dio: ^4.0.4
+  http_interceptor: ^1.0.2
   flutter_bloc: ^8.0.1
   sealed_flutter_bloc: ^8.0.0
-
+  record: ^4.1.1
+  audio_session: ^0.1.6+1
+  rxdart: '^0.27.0'
+  just_audio_libwinmedia: ^0.0.4
+  just_audio: ^0.9.21
+  video_player: ^2.4.2
+  dart_vlc: ^0.0.2
+  flutter_neumorphic: ^3.2.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^1.0.0
+  flutter_lints: ^2.0.1
 
 flutter:
 
   uses-material-design: true
+  assets:
+    - assets/images/b.png

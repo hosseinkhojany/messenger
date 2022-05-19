@@ -1,4 +1,4 @@
-enum SocketState{
+enum SocketStates{
   none,
   connecting,
   connected,

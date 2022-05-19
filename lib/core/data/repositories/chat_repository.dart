@@ -1,6 +1,7 @@
 
 
 import 'package:telegram_flutter/core/data/datasources/remote/chat_datasource.dart';
+import 'package:telegram_flutter/core/data/models/login_response.dart';
 
 import '../models/message.dart';
 
@@ -19,5 +20,6 @@ class ChatRepository{
   Future<bool> sendImLeft() => _chatDataSource.sendLeft();
   Future<bool> sendImTyping() => _chatDataSource.sendTyping();
   Future<bool> sendImTypingStop() => _chatDataSource.sendTypingStop();
+  Future<LoginResponse> login(bool createAccount, String userName, String password) async => _chatDataSource.sendLogin(createAccount, userName, password);
 
 }

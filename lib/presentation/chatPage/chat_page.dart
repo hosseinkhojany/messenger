@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:telegram_flutter/core/controller/chat_controller.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:telegram_flutter/presentation/chatPage/ext.dart';
+import 'package:telegram_flutter/presentation/sharedBloc/socket_bloc.dart';
 import 'package:telegram_flutter/core/data/models/message.dart';
-import 'package:telegram_flutter/presentation/chatPage/message_widget.dart';
-import 'package:telegram_flutter/presentation/chatPage/user_joined_left_widget.dart';
-
-import '../../core/utils/enums.dart';
+import 'package:telegram_flutter/presentation/chatPage/components/message_widget.dart';
+import 'package:telegram_flutter/presentation/chatPage/components/user_joined_left_widget.dart';
 
 class ChatPage extends StatefulWidget {
   const ChatPage({Key? key}) : super(key: key);
@@ -27,18 +26,23 @@ class ChatPageStater extends State<ChatPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: GetBuilder<ChatController>(
-          builder: (chatController) {
-            switch (chatController.socketState.value) {
-              case SocketState.connected:
-                if (chatController.typingUser.isNotEmpty) {
-                  return Text(chatController.typingUsers());
+        title: BlocBuilder<SocketBloc, SocketState>(
+          builder: (context, state) {
+            switch (state.runtimeType) {
+              case SocketConnectedState:
+              case TypingState:
+              case TypingStopState:
+              case SocketNewMessageState:
+              case UserJoinedState:
+              case UserLeftState:
+                if (context.getTypingUsersList().isNotEmpty) {
+                  return Text(context.getTypingUsers());
                 } else {
                   return const Text("Connected");
                 }
-              case SocketState.connecting:
+              case SocketConnectingState:
                 return const Text("Connecting...");
-              case SocketState.failed:
+              case SocketFailedState:
                 return const Text("Connection Failed o_O");
               default:
                 return const Text(">_<");
@@ -46,8 +50,14 @@ class ChatPageStater extends State<ChatPage> {
           },
         ),
       ),
-      body: Stack(
-        children: const [ChatListWidget(), InputBoxWidget()],
+      body: Container(
+        child: Stack(
+          children: const [ChatListWidget(), InputBoxWidget()],
+        ),
+        decoration: BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage("assets/images/b.png"), fit: BoxFit.cover),
+        ),
       ),
     );
   }
@@ -65,27 +75,34 @@ class ChatListWidgetStater extends State<ChatListWidget> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 60, right: 5, left: 5, top: 5),
-      child: GetBuilder<ChatController>(
-        builder: (chatController) => ListView.builder(
-          itemCount: chatController.messages.length,
-          itemBuilder: (BuildContext context, int index) {
-            switch (chatController.messages[index].runtimeType) {
-              case Message:
-                Message message = (chatController.messages[index] as Message);
-                return MessageWidget(width: 300, height: 60, message: message);
-              case UserJoined:
-                UserJoined userJoined =
-                    (chatController.messages[index] as UserJoined);
-                return UserJoinedLeftWidget(joined: userJoined,);
-              case UserLeft:
-                UserLeft userLeft =
-                    (chatController.messages[index] as UserLeft);
-                return UserJoinedLeftWidget(left: userLeft,);
-              default:
-                return const Text("Un Support message");
-            }
-          },
-        ),
+      child: BlocBuilder<SocketBloc, SocketState>(
+        builder: (context, state) {
+          return ListView.builder(
+            itemCount: context.getMessages().length,
+            itemBuilder: (BuildContext context, int index) {
+              switch (context.getMessages()[index].runtimeType) {
+                case Message:
+                  Message message = (context.getMessages()[index] as Message);
+                  return MessageWidget(
+                      width: 300, height: 60, message: message);
+                case UserJoined:
+                  UserJoined userJoined =
+                      (context.getMessages()[index] as UserJoined);
+                  return UserJoinedLeftWidget(
+                    joined: userJoined,
+                  );
+                case UserLeft:
+                  UserLeft userLeft =
+                      (context.getMessages()[index] as UserLeft);
+                  return UserJoinedLeftWidget(
+                    left: userLeft,
+                  );
+                default:
+                  return const Text("Un Support message");
+              }
+            },
+          );
+        },
       ),
     );
   }
@@ -100,7 +117,6 @@ class InputBoxWidget extends StatefulWidget {
 
 class InputBoxWidgetStater extends State<InputBoxWidget> {
   TextEditingController textEditingController = TextEditingController();
-  ChatController chatController = Get.find();
 
   @override
   void dispose() {
@@ -123,11 +139,7 @@ class InputBoxWidgetStater extends State<InputBoxWidget> {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 20, right: 20),
                   child: TextField(
-                    onChanged: (str) =>
-                        {Get.find<ChatController>().sendImTyping()},
-                    onSubmitted: (str) {
-                      Get.find<ChatController>().sendImStopTyping();
-                    },
+                    onChanged: (str) => context.sendImTypingEvent(),
                     maxLines: null,
                     keyboardType: TextInputType.multiline,
                     controller: textEditingController,
@@ -139,13 +151,26 @@ class InputBoxWidgetStater extends State<InputBoxWidget> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(right: 20),
+                padding: const EdgeInsets.only(right: 10),
+                child: InkWell(
+                  child: const Icon(Icons.mic_rounded),
+                  onTap: () {
+                    if (textEditingController.text.toString().isNotEmpty) {
+                      context.sendImTypingStopEvent();
+                      context
+                          .sendMessage(textEditingController.text.toString());
+                    }
+                  },
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(right: 10),
                 child: InkWell(
                   child: const Icon(Icons.send),
                   onTap: () {
                     if (textEditingController.text.toString().isNotEmpty) {
-                      Get.find<ChatController>().sendImStopTyping();
-                      chatController
+                      context.sendImTypingStopEvent();
+                      context
                           .sendMessage(textEditingController.text.toString());
                     }
                   },

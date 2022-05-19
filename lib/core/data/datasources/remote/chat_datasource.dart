@@ -1,8 +1,8 @@
 import 'dart:async';
-import 'dart:convert';
-
+import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
 import 'package:socket_io_client/socket_io_client.dart';
+import 'package:telegram_flutter/core/data/models/login_response.dart';
 
 import '../../config/stream_socket.dart';
 import '../../models/message.dart';
@@ -11,28 +11,29 @@ class ChatDataSource {
 
   final Socket socket;
   final StreamSocket streamSocket;
+  final Dio dio;
 
-  ChatDataSource(this.socket, this.streamSocket);
+  ChatDataSource(this.dio, this.socket, this.streamSocket);
 
   Stream<MessageModel> listen() {
     socket.on('new message', (data) {
-      debugPrint("new message:" + data.toString());
+      debugPrint("new message:$data");
       streamSocket.addResponse.call(Message.fromJson(data));
     });
     socket.on('user joined', (data) {
-      debugPrint("user joined:" + data.toString());
+      debugPrint("user joined:$data");
       streamSocket.addResponse.call(UserJoined.fromJson(data));
     });
     socket.on('typing', (data) {
-      debugPrint("typing:" + data.toString());
+      debugPrint("typing:$data");
       streamSocket.addResponse.call(UserTyping.fromJson(data));
     });
     socket.on('stop typing', (data) {
-      debugPrint("stop typing:" + data.toString());
+      debugPrint("stop typing:$data");
       streamSocket.addResponse.call(UserTypingStop.fromJson(data));
     });
     socket.on('user left', (data) {
-      debugPrint("user left:" + data.toString());
+      debugPrint("user left:$data");
       streamSocket.addResponse.call(UserLeft.fromJson(data));
     });
     return streamSocket.getResponse;
@@ -40,7 +41,7 @@ class ChatDataSource {
 
   Future<bool> sendMessage(String message) {
     try {
-      debugPrint("ME:"+message);
+      debugPrint("ME:$message");
       socket.emit("new message", message);
       return Future.value(true);
     } catch (e) {
@@ -50,11 +51,24 @@ class ChatDataSource {
 
   Future<bool> sendJoin(String userName) {
     try {
-      debugPrint("ME:"+userName);
+      debugPrint("ME:$userName");
       socket.emit("add user", userName);
       return Future.value(true);
     } catch (e) {
       return Future.value(false);
+    }
+  }
+
+  Future<LoginResponse> sendLogin(bool createAccount, String userName, String password) async {
+    try{
+      var response = await dio.post('/login', data: { "username": userName, "password": password, "createAccount": createAccount ? "truee" : "falsee"});
+      if (response.statusCode == 200) {
+        return LoginResponse.fromJson(response.data);
+      } else {
+        return LoginResponse(false, "try again");
+      }
+    }catch(e){
+      return LoginResponse(false, "try again");
     }
   }
 
