@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:telegram_flutter/core/data/models/message.dart';
 import 'package:telegram_flutter/presentation/globalWidgets/app_snackbar.dart';
 
@@ -74,8 +73,13 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
           sendImStopTyping(emit);
           break;
         case UserJoinedEvent:
-          await sendImJoined(
-              (event as UserJoinedEvent).createAccount, (event as UserJoinedEvent).userName, (event).password, emit);
+          if((event as UserJoinedEvent).createAccount == null){
+            //join request
+            await sendImJoin((event).userName, emit);
+          }else{
+          // login&join request
+            await sendLoginAndJoin((event).createAccount ?? false, (event).userName, (event).password ?? "", emit);
+          }  
           break;
         case UserLeftEvent:
           sendImLeft(emit);
@@ -103,7 +107,7 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
     });
   }
 
-  sendImJoined(bool createAccount, String userName, String password, Emitter<SocketState> emit) async {
+  sendLoginAndJoin(bool createAccount, String userName, String password, Emitter<SocketState> emit) async {
     emit(UserJoinedState(false, true));
     await _chatRepository.login(createAccount, userName, password).then((response) async {
       if (response.success) {
@@ -121,6 +125,20 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
       } else {
         AppSnackBar.show(response.message);
         emit(UserJoinedState(false, false));
+      }
+    });
+  }
+
+  sendImJoin(String userName, Emitter<SocketState> emit) async {
+    emit(UserJoinedState(false, true));
+    UserJoined inProcessMessage = UserJoined(userName: userName, my: true);
+    await _chatRepository.sendImJoined(userName).then((value) {
+      if (!value) {
+        AppSnackBar.show("try again");
+        emit(UserJoinedState(false, false));
+      } else {
+        messages.add(inProcessMessage);
+        emit(UserJoinedState(true, false));
       }
     });
   }

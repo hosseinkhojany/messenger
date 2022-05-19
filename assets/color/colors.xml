@@ -1,0 +1,7 @@
+<resources>
+    <color name="chatPageMainBackground">#202B4F</color>
+    <color name="defaultChatItemBackground">#1F2747</color>
+    <color name="gradientChatMessageItem">#F68D3D</color>
+    <color name="loginFormBackground">#55D4AB</color>
+    <color name="topItemLoginFormBackground">#00BD8F</color>
+</resources>

@@ -1,19 +1,34 @@
-import 'package:hive/hive.dart';
-import 'package:telegram_flutter/core/data/config/hive_config.dart';
+import 'dart:async' show Future;
+import 'package:shared_preferences/shared_preferences.dart';
 
-const USER_TOKEN = "USER_TOKEN";
-const USER = "USER";
+const userName = "userName";
 
-class SharedStore{
+class SharedStore {
+  static SharedPreferences? _prefsInstance;
 
-  static Box _getBox() {
-    return Hive.box(SHARED_CONFIG_BOX);
+  // call this method from iniState() function of mainApp().
+  static Future<SharedPreferences> init() async {
+    if (_prefsInstance != null) {
+      return _prefsInstance!;
+    } else {
+      _prefsInstance = await SharedPreferences.getInstance();
+      return _prefsInstance!;
+    }
   }
 
-  static void setUserName(String value) => _getBox().put(USER_TOKEN, value);
-  static String getUserName() => _getBox().get(USER_TOKEN, defaultValue: "");
-  static String getUser() => _getBox().get(USER, defaultValue: "");
+  static String getString(String key, [String defValue = ""]) {
+    return _prefsInstance!.getString(key) ?? defValue;
+  }
 
+  static Future<bool> setString(String key, String value) async {
+    return await _prefsInstance!.setString(key, value);
+  }
+
+  static String getUserName([String defValue = ""]) {
+    return getString(userName, defValue);
+  }
+
+  static Future<bool> setUserName(String value) async {
+    return setString(userName, value);
+  }
 }
-
-

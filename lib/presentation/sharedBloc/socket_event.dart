@@ -11,9 +11,9 @@ class TypingEvent extends SocketEvent{}
 class TypingStopEvent extends SocketEvent{}
 class UserJoinedEvent extends SocketEvent{
   final String userName;
-  final String password;
-  final bool createAccount;
-  UserJoinedEvent(this.createAccount, this.userName, this.password);
+  final String? password;
+  final bool? createAccount;
+  UserJoinedEvent(this.userName, {this.createAccount, this.password});
 }
 class UserLeftEvent extends SocketEvent{}
 class NewMessageReceivedEvent extends SocketEvent{}

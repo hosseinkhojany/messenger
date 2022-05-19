@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:telegram_flutter/app/router.dart';
+import 'package:telegram_flutter/gen/colors.gen.dart';
 import 'package:telegram_flutter/presentation/editNamePage/ext.dart';
 
 import '../../core/utils/ext.dart';
@@ -35,9 +36,6 @@ class EditNameStater extends State<EditNamePage> {
 
   @override
   Widget build(BuildContext context) {
-    if (SharedStore.getUserName().isNotEmpty) {
-      Navigator.pushNamed(context, CHAT_PAGE);
-    }
     return BlocBuilder<SocketBloc, SocketState>(
       builder: (context, state) {
         bool loading = false;
@@ -45,12 +43,13 @@ class EditNameStater extends State<EditNamePage> {
           loading = state.loading;
           if (state.success) {
             Future.delayed(const Duration(seconds: 1), () {
-              Navigator.pushReplacementNamed(context, CHAT_PAGE);
+              context.saveUserNameToDb();
+              Navigator.pushNamedAndRemoveUntil(context, CHAT_PAGE,(_) => false);
             });
           }
         }
         return Scaffold(
-          backgroundColor: HexColor("1D1D26"),
+          backgroundColor: ColorName.chatPageMainBackground,
           body: Stack(
               children: [
                 Center(
@@ -105,7 +104,7 @@ class EditNameStater extends State<EditNamePage> {
                             width: 90,
                             height: textFieldHeight,
                             text: createAccount ? "Create" : "LOGIN",
-                            background: HexColor("#186B89"),
+                            background: ColorName.chatPageMainBackground,
                             textStyle:
                                 TextStyle(color: Colors.white, fontSize: 20),
                             autoLoading: false,
@@ -113,6 +112,7 @@ class EditNameStater extends State<EditNamePage> {
                             onClick: () {
                               if (passwordEditingController.text.length > 0 &&
                                   userNameEditingController.text.length > 0) {
+                                
                                 context.sendImJoined(
                                     createAccount,
                                     userNameEditingController.text,
@@ -159,7 +159,7 @@ class EditNameStater extends State<EditNamePage> {
                           offset: Offset(0, 1),
                         ),
                       ],
-                      color: HexColor("#55D4AB"),
+                      color: ColorName.loginFormBackground,
                       shape: PolygonBorder(
                         rotate: 90,
                         borderRadius: 12,
@@ -185,7 +185,7 @@ class EditNameStater extends State<EditNamePage> {
                             offset: Offset(0, 3),
                           ),
                         ],
-                        color: HexColor("#00BD8F"),
+                        color: ColorName.topItemLoginFormBackground,
                         shape: PolygonBorder(
                           rotate: 90,
                           borderRadius: 12,

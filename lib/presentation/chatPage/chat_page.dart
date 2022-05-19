@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:telegram_flutter/core/data/datasources/local/sharedStore.dart';
+import 'package:telegram_flutter/gen/colors.gen.dart';
 import 'package:telegram_flutter/presentation/chatPage/ext.dart';
 import 'package:telegram_flutter/presentation/sharedBloc/socket_bloc.dart';
 import 'package:telegram_flutter/core/data/models/message.dart';
@@ -24,8 +26,12 @@ class ChatPageStater extends State<ChatPage> {
 
   @override
   Widget build(BuildContext context) {
+    if(SharedStore.getUserName().isNotEmpty){
+      context.sendImJoin(SharedStore.getUserName());
+    }
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: ColorName.chatPageMainBackground,
         title: BlocBuilder<SocketBloc, SocketState>(
           builder: (context, state) {
             switch (state.runtimeType) {
@@ -139,11 +145,14 @@ class InputBoxWidgetStater extends State<InputBoxWidget> {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 20, right: 20),
                   child: TextField(
+                    style: TextStyle(color: Colors.white),
+                    cursorColor: Colors.yellow,
                     onChanged: (str) => context.sendImTypingEvent(),
                     maxLines: null,
                     keyboardType: TextInputType.multiline,
                     controller: textEditingController,
                     decoration: const InputDecoration(
+                      hintStyle: TextStyle(color: Colors.white60),
                       hintText: "Message",
                       border: InputBorder.none,
                     ),
@@ -153,7 +162,7 @@ class InputBoxWidgetStater extends State<InputBoxWidget> {
               Padding(
                 padding: const EdgeInsets.only(right: 10),
                 child: InkWell(
-                  child: const Icon(Icons.mic_rounded),
+                  child: Icon(Icons.mic_none_rounded,color: Colors.white),
                   onTap: () {
                     if (textEditingController.text.toString().isNotEmpty) {
                       context.sendImTypingStopEvent();
@@ -166,7 +175,7 @@ class InputBoxWidgetStater extends State<InputBoxWidget> {
               Padding(
                 padding: const EdgeInsets.only(right: 10),
                 child: InkWell(
-                  child: const Icon(Icons.send),
+                  child: const Icon(Icons.send, color: Colors.white),
                   onTap: () {
                     if (textEditingController.text.toString().isNotEmpty) {
                       context.sendImTypingStopEvent();
@@ -181,7 +190,7 @@ class InputBoxWidgetStater extends State<InputBoxWidget> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(100),
             shape: BoxShape.rectangle,
-            color: Colors.black54,
+            color: ColorName.defaultChatItemBackground,
           ),
           width: double.infinity,
         ),

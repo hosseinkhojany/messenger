@@ -13,6 +13,9 @@ extension BlocExt on BuildContext{
   sendImLeft(){
     read<SocketBloc>().add(UserLeftEvent());
   }
+  sendImJoin(String username){
+    read<SocketBloc>().add(UserJoinedEvent(username));
+  }
   sendMessage(String message){
     read<SocketBloc>().add(SendMessageEvent(message));
   }
