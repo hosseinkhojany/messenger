@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+import 'package:flutter/cupertino.dart';
+
 extension ColorExtension on String {
   toColor() {
     var hexColor = replaceAll("#", "");
@@ -8,6 +10,18 @@ extension ColorExtension on String {
     }
     if (hexColor.length == 8) {
       return Color(int.parse("0x$hexColor"));
+    }
+  }
+}
+
+extension ScreenSizeGameCardExt on BuildContext{
+  bool isHorizontalScreen(){
+    if(MediaQuery.of(this).size.width < MediaQuery.of(this).size.height){
+      //use horizontal |
+      return true;
+    } else {
+      //use vertical __
+      return false;
     }
   }
 }
@@ -23,3 +37,4 @@ class HexColor extends Color {
 
   HexColor(final String hexColor) : super(_getColorFromHex(hexColor));
 }
+

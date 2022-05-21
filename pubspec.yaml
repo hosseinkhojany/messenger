@@ -30,6 +30,7 @@ dependencies:
   build_runner: ^2.1.9
   flutter_gen_runner: ^4.1.6
   shared_preferences: ^2.0.15
+  flutter_sticky_header: ^0.6.2
 
 dev_dependencies:
   flutter_test:

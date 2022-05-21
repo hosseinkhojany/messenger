@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 
@@ -17,6 +18,16 @@ extension GlobalBuildContextExt on BuildContext{
     return Theme.of(this).platform == TargetPlatform.linux ||
         Theme.of(this).platform == TargetPlatform.macOS ||
         Theme.of(this).platform == TargetPlatform.windows;
+  }
+  bool isDesktopOrWeb(){
+    return Theme.of(this).platform == TargetPlatform.linux ||
+        Theme.of(this).platform == TargetPlatform.macOS ||
+        Theme.of(this).platform == TargetPlatform.windows ||
+        kIsWeb;
+  }
+  bool isMobile(){
+    return Theme.of(this).platform == TargetPlatform.android ||
+        Theme.of(this).platform == TargetPlatform.iOS;
   }
 
 }

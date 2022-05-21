@@ -65,10 +65,10 @@ class ChatDataSource {
       if (response.statusCode == 200) {
         return LoginResponse.fromJson(response.data);
       } else {
-        return LoginResponse(false, "try again");
+        return LoginResponse(false, "if you are in (Iran, Syria, Cuba, South Korea) make sure VPN connected");
       }
     }catch(e){
-      return LoginResponse(false, "try again");
+      return LoginResponse(false, "if you are in (Iran, Syria, Cuba, South Korea) make sure VPN connected");
     }
   }
 

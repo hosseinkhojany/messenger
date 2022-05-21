@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:telegram_flutter/presentation/sharedBloc/socket_bloc.dart';
 
+import '../../core/data/models/message.dart';
+
 extension BlocExt on BuildContext{
   sendImTypingEvent(){
     read<SocketBloc>().add(TypingEvent());
@@ -25,7 +27,7 @@ extension BlocExt on BuildContext{
   getTypingUsers(){
     return read<SocketBloc>().typingUsers();
   }
-  getMessages(){
+  List<MessageModel> getMessages(){
     return read<SocketBloc>().messages;
   }
 }

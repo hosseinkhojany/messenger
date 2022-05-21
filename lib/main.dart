@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:get/get.dart';
 import 'package:telegram_flutter/app/router.dart';
+import 'package:telegram_flutter/presentation/chatListPage/chat_list_page.dart';
 import 'package:telegram_flutter/presentation/chatPage/chat_page.dart';
 import 'package:telegram_flutter/presentation/editNamePage/edit_name_page.dart';
 import 'app/bindings.dart';
@@ -27,12 +28,13 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Telegram Chat app',
-      initialRoute: SharedStore.getUserName().isNotEmpty ? CHAT_PAGE : EDIT_NAME_PAGE,
-      routes: {
-        EDIT_NAME_PAGE: (context) => const EditNamePage(),
-        CHAT_PAGE: (context) => const ChatPage()
-      },
-      onGenerateRoute: AppRouter().generateRoute,
+      home: ChatListPage()
+      // initialRoute: SharedStore.getUserName().isNotEmpty ? CHAT_PAGE : EDIT_NAME_PAGE,
+      // routes: {
+      //   EDIT_NAME_PAGE: (context) => const EditNamePage(),
+      //   CHAT_PAGE: (context) => const ChatPage()
+      // },
+      // onGenerateRoute: AppRouter().generateRoute,
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:telegram_flutter/app/router.dart';
@@ -22,6 +23,7 @@ class EditNamePage extends StatefulWidget {
 class EditNameStater extends State<EditNamePage> {
   TextEditingController userNameEditingController = TextEditingController();
   TextEditingController passwordEditingController = TextEditingController();
+  FocusNode focusNode = FocusNode();
 
   final double textFieldHeight = 50;
   final double formSize = 350;
@@ -31,26 +33,30 @@ class EditNameStater extends State<EditNamePage> {
   void dispose() {
     userNameEditingController.dispose();
     passwordEditingController.dispose();
+    focusNode.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SocketBloc, SocketState>(
-      builder: (context, state) {
-        bool loading = false;
-        if (state is UserJoinedState) {
-          loading = state.loading;
-          if (state.success) {
-            Future.delayed(const Duration(seconds: 1), () {
-              context.saveUserNameToDb();
-              Navigator.pushNamedAndRemoveUntil(context, CHAT_PAGE,(_) => false);
-            });
+    return RawKeyboardListener(
+      focusNode: focusNode,
+      child: BlocBuilder<SocketBloc, SocketState>(
+        builder: (context, state) {
+          bool loading = false;
+          if (state is UserJoinedState) {
+            loading = state.loading;
+            if (state.success) {
+              Future.delayed(const Duration(seconds: 1), () {
+                context.saveUserNameToDb();
+                Navigator.pushNamedAndRemoveUntil(
+                    context, CHAT_PAGE, (_) => false);
+              });
+            }
           }
-        }
-        return Scaffold(
-          backgroundColor: ColorName.chatPageMainBackground,
-          body: Stack(
+          return Scaffold(
+            backgroundColor: ColorName.chatPageMainBackground,
+            body: Stack(
               children: [
                 Center(
                   child: Container(
@@ -109,20 +115,8 @@ class EditNameStater extends State<EditNamePage> {
                                 TextStyle(color: Colors.white, fontSize: 20),
                             autoLoading: false,
                             loading: loading,
-                            onClick: () {
-                              if (passwordEditingController.text.length > 0 &&
-                                  userNameEditingController.text.length > 0) {
-                                
-                                context.sendImJoined(
-                                    createAccount,
-                                    userNameEditingController.text,
-                                    passwordEditingController.text);
-                              } else {
-                                Get.showSnackbar(GetSnackBar(
-                                  message: "do all fields fill",
-                                ));
-                              }
-                            },
+                            onClick: () => sendImJoining()
+                            ,
                           ),
                         ),
                         Padding(
@@ -198,8 +192,28 @@ class EditNameStater extends State<EditNamePage> {
                 ),
               ],
             ),
-        );
+          );
+        },
+      ),
+      onKey: (event) {
+        if (event.runtimeType == RawKeyUpEvent) {
+          if (event.data.logicalKey == LogicalKeyboardKey.enter) {
+            sendImJoining();
+          }
+        }
       },
     );
+  }
+
+  void sendImJoining() {
+    if (passwordEditingController.text.length > 0 &&
+        userNameEditingController.text.length > 0) {
+      context.sendImJoined(createAccount, userNameEditingController.text,
+          passwordEditingController.text);
+    } else {
+      Get.showSnackbar(GetSnackBar(
+        message: "do all fields fill",
+      ));
+    }
   }
 }

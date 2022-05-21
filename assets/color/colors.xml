@@ -4,4 +4,12 @@
     <color name="gradientChatMessageItem">#F68D3D</color>
     <color name="loginFormBackground">#55D4AB</color>
     <color name="topItemLoginFormBackground">#00BD8F</color>
+    <color name="tabBarBackground">#331F5E</color>
+
+
+    <color name="gradientColor1">#dd5d3e</color>
+    <color name="gradientColor2">#ec603e</color>
+    <color name="gradientColor3">#2d3271</color>
+    <color name="gradientColor4">#212e67</color>
+
 </resources>

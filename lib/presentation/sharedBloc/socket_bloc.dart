@@ -36,7 +36,7 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
               }
             }
           } else {
-            messages.add(event);
+            addMessage(event);
           }
           add(NewMessageReceivedEvent());
         },
@@ -99,9 +99,9 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
         Message(userName: userName, message: message, my: true);
     _chatRepository.sendMessage(message).then((value) {
       if (!value) {
-        AppSnackBar.show("try again");
+        AppSnackBar.show("if you are in (Iran, Syria, Cuba, South Korea) make sure VPN connected");
       } else {
-        messages.add(inProcessMessage);
+        addMessage(inProcessMessage);
         emit(SocketNewMessageState());
       }
     });
@@ -114,11 +114,11 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
         UserJoined inProcessMessage = UserJoined(userName: userName, my: true);
         await _chatRepository.sendImJoined(userName).then((value) {
           if (!value) {
-            AppSnackBar.show("try again");
+            AppSnackBar.show("if you are in (Iran, Syria, Cuba, South Korea) make sure VPN connected");
             emit(UserJoinedState(false, false));
           } else {
             AppSnackBar.show(response.message);
-            messages.add(inProcessMessage);
+            addMessage(inProcessMessage);
             emit(UserJoinedState(true, false));
           }
         });
@@ -134,10 +134,10 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
     UserJoined inProcessMessage = UserJoined(userName: userName, my: true);
     await _chatRepository.sendImJoined(userName).then((value) {
       if (!value) {
-        AppSnackBar.show("try again");
+        AppSnackBar.show("if you are in (Iran, Syria, Cuba, South Korea) make sure VPN connected");
         emit(UserJoinedState(false, false));
       } else {
-        messages.add(inProcessMessage);
+        addMessage(inProcessMessage);
         emit(UserJoinedState(true, false));
       }
     });
@@ -147,9 +147,9 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
     UserLeft inProcessMessage = UserLeft(userName: userName, my: true);
     _chatRepository.sendImLeft().then((value) {
       if (!value) {
-        AppSnackBar.show("try again");
+        AppSnackBar.show("if you are in (Iran, Syria, Cuba, South Korea) make sure VPN connected");
       } else {
-        messages.add(inProcessMessage);
+        addMessage(inProcessMessage);
         emit(UserLeftState());
       }
     });
@@ -231,4 +231,12 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
     }
     return false;
   }
+
+  void addMessage(MessageModel message){
+    List<MessageModel> result = [];
+    result.add(message);
+    result.addAll(messages);
+    messages = result;
+  }
+
 }
