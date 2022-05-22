@@ -5,8 +5,10 @@ import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:get/get.dart';
 import 'package:telegram_flutter/app/router.dart';
 import 'package:telegram_flutter/presentation/chatListPage/chat_list_page.dart';
+import 'package:telegram_flutter/presentation/chatListPage/components/chat_item.dart';
 import 'package:telegram_flutter/presentation/chatPage/chat_page.dart';
 import 'package:telegram_flutter/presentation/editNamePage/edit_name_page.dart';
+import 'package:telegram_flutter/presentation/unitHorizontalScreen/horizontal_merged_chatlist_chatpage_screen.dart';
 import 'app/bindings.dart';
 import 'app/bloc_observer.dart';
 import 'core/data/datasources/local/sharedStore.dart';
@@ -28,7 +30,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Telegram Chat app',
-      home: ChatListPage()
+      home: MergedChatListChatPageScreen(),
       // initialRoute: SharedStore.getUserName().isNotEmpty ? CHAT_PAGE : EDIT_NAME_PAGE,
       // routes: {
       //   EDIT_NAME_PAGE: (context) => const EditNamePage(),

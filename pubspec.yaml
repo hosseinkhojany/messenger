@@ -31,6 +31,7 @@ dependencies:
   flutter_gen_runner: ^4.1.6
   shared_preferences: ^2.0.15
   flutter_sticky_header: ^0.6.2
+  responsive_framework: ^0.2.0
 
 dev_dependencies:
   flutter_test:
