@@ -1,20 +1,76 @@
-# telegram_flutter
+# 🎮 GGEZ Network
 
-A new Flutter project.
+![GitHub repo size](https://img.shields.io/github/repo-size/hosseinkhojany/Telegram_Flutter?color=red&label=repository%20size)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/hosseinkhojany/Telegram_Flutter?color=red)
+![GitHub language count](https://img.shields.io/github/languages/count/hosseinkhojany/Telegram_Flutter)
+![GitHub top language](https://img.shields.io/github/languages/top/hosseinkhojany/Telegram_Flutter)
+![GitHub](https://img.shields.io/github/license/hosseinkhojany/Telegram_Flutter?color=yellow)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/m/hosseinkhojany/Telegram_Flutter?color=brightgreen&label=commits)
+![GitHub commit activity](https://img.shields.io/badge/License-Apache%202.0-blue.svg)
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
+## ℹ️ About
+Our goal is to build, Multi platform chat application with high personalization capabilities and performance
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+## 🎬 Release Status
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Go to the [Releases](https://github.com/hosseinkhojany/Telegram_Flutter/releases) to download the latest version.
 
+## 💡 Deployment
+
+Deployment is not currently in use.
+
+## 💻 Built with
+
+- Flutter
+- Dart
+- Android Studio
+- Architecture
+  - MVI Architecture
+  - Repository Pattern
+  - Bloc Pattern
+  - ![1_IHfegWDCScf22RQcO_rbZg](https://user-images.githubusercontent.com/37432839/169803415-c631bc7c-dab1-4de3-a8aa-b4e67de68313.png)
+
+
+## 🍃 How to Setup
+
+- Download or clone the repository
+- Move the project to the selected directory
+- Open it with a code editor (Android Studio, Visual Studio Code)
+- Run flutter clean and pub get commands
+- Do not update / upgrade gradle and other versions until the app is up and running with built versions
+  
+
+## 🚀 How to Run
+
+- Run flutter clean and pub get commands
+- Launch Device
+- Run on the device
+
+## 💎 Dependencies
+
+- [Flutter](https://flutter.dev)
+- [firebase_auth: ^3.3.7](https://pub.dev/packages/firebase_auth)
+- [firebase_core: ^1.12.0](https://pub.dev/packages/firebase_core)
+- [cloud_firestore: ^3.1.8](https://pub.dev/packages/cloud_firestore)
+- [firebase_analytics: ^9.1.0](https://pub.dev/packages/firebase_analytics)
+- [firebase_messaging: ^11.2.6](https://pub.dev/packages/firebase_messaging)
+- [firebase_crashlytics: ^2.5.1](https://pub.dev/packages/firebase_crashlytics)
+- [intl: ^0.17.0](https://pub.dev/packages/intl)
+- [flutter_local_notifications: ^9.3.2](https://pub.dev/packages/flutter_local_notifications)
+- [payhere_mobilesdk_flutter: ^2.0.0](https://pub.dev/packages/payhere_mobilesdk_flutter)
+- [flutter_native_splash](https://pub.dev/packages/flutter_native_splash)
+- [crypto: ^3.0.1](https://pub.dev/packages/crypto)
+
+
+## 👑 Contributing
+
+If you want to contribute to this project and make it better, your help is very welcome.
+
+## ❤️ Thanks
+
+Thanks to everyone who supported
 
 
 # License
