@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:telegram_flutter/core/utils/ext.dart';
+import 'package:telegram_flutter/gen/colors.gen.dart';
 import 'package:telegram_flutter/presentation/chatListPage/chat_list_page.dart';
 import 'package:telegram_flutter/presentation/chatPage/chat_page.dart';
 
@@ -29,7 +30,7 @@ class MergedChatListChatPageScreenState
   @override
   Widget build(BuildContext context) {
     return AdvancedDrawer(
-        backdropColor: Colors.blueGrey,
+        backdropColor: ColorName.sideMenuBackground,
         controller: _advancedDrawerController,
         animationCurve: Curves.easeInOut,
         animationDuration: const Duration(milliseconds: 300),
@@ -103,14 +104,14 @@ class MergedChatListChatPageScreenState
       //use horizontal |
       if (isHaveOpeningChat) {
         //open fullscreen chat page
+        widget = ChatPage();
+      } else {
+        //open fullscreen chat list page
         widget = ChatListPage(
           onMenuClicked: () {
             _advancedDrawerController.showDrawer();
           },
         );
-      } else {
-        //open fullscreen chat list page
-        widget = ChatPage();
       }
     } else {
       widget = Row(children: [

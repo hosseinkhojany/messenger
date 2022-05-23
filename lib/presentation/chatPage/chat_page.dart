@@ -4,16 +4,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:telegram_flutter/core/data/datasources/local/sharedStore.dart';
 import 'package:telegram_flutter/core/utils/ext.dart';
-import 'package:telegram_flutter/gen/assets.gen.dart';
 import 'package:telegram_flutter/gen/colors.gen.dart';
 import 'package:telegram_flutter/presentation/chatPage/ext.dart';
-import 'package:telegram_flutter/presentation/sharedBloc/socket_bloc.dart';
 import 'package:telegram_flutter/presentation/chatPage/components/message_widget.dart';
 
 import '../globalWidgets/improvedScrolling/MMB_scroll_cursor_activity.dart';
 import '../globalWidgets/improvedScrolling/config.dart';
 import '../globalWidgets/improvedScrolling/custom_behavior.dart';
 import '../globalWidgets/improvedScrolling/custom_scroll_cursor.dart';
+import '../sharedBloc/socket/socket_bloc.dart';
 
 class ChatPage extends StatefulWidget {
   const ChatPage({Key? key}) : super(key: key);
@@ -36,9 +35,7 @@ class ChatPageStater extends State<ChatPage> {
 
   @override
   Widget build(BuildContext context) {
-    if (SharedStore.getUserName().isNotEmpty) {
-      context.sendImJoin(SharedStore.getUserName());
-    }
+    context.sendImJoin(SharedStore.getUserName());
     return Scaffold(
       appBar: AppBar(
         shape: context.isHorizontalScreen() ? null : RoundedRectangleBorder(
@@ -183,7 +180,7 @@ class ChatPageStater extends State<ChatPage> {
                                   onChanged: (str) => context.sendImTypingEvent(),
                                   onEditingComplete: () {},
                                   maxLines: null,
-                                  textInputAction: TextInputAction.send,
+                                  textInputAction: TextInputAction.next,
                                   keyboardType: TextInputType.multiline,
                                   controller: textEditingController,
                                   decoration: const InputDecoration(

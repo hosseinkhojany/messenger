@@ -5,13 +5,10 @@ import 'package:get/get.dart';
 import 'package:telegram_flutter/app/router.dart';
 import 'package:telegram_flutter/gen/colors.gen.dart';
 import 'package:telegram_flutter/presentation/editNamePage/ext.dart';
-
-import '../../core/utils/ext.dart';
 import '../chatPage/components/cutted_button.dart';
 import '../chatPage/components/cutted_text_field.dart';
 import '../globalWidgets/polygon/polygon_border.dart';
-import '../sharedBloc/socket_bloc.dart';
-import '../../core/data/datasources/local/sharedStore.dart';
+import '../sharedBloc/socket/socket_bloc.dart';
 
 class EditNamePage extends StatefulWidget {
   const EditNamePage({Key? key}) : super(key: key);
@@ -23,7 +20,6 @@ class EditNamePage extends StatefulWidget {
 class EditNameStater extends State<EditNamePage> {
   TextEditingController userNameEditingController = TextEditingController();
   TextEditingController passwordEditingController = TextEditingController();
-  FocusNode focusNode = FocusNode();
 
   final double textFieldHeight = 50;
   final double formSize = 350;
@@ -33,14 +29,13 @@ class EditNameStater extends State<EditNamePage> {
   void dispose() {
     userNameEditingController.dispose();
     passwordEditingController.dispose();
-    focusNode.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return RawKeyboardListener(
-      focusNode: focusNode,
+      focusNode: FocusNode(),
       child: BlocBuilder<SocketBloc, SocketState>(
         builder: (context, state) {
           bool loading = false;
@@ -48,7 +43,6 @@ class EditNameStater extends State<EditNamePage> {
             loading = state.loading;
             if (state.success) {
               Future.delayed(const Duration(seconds: 1), () {
-                context.saveUserNameToDb();
                 Navigator.pushNamedAndRemoveUntil(
                     context, CHAT_PAGE, (_) => false);
               });
@@ -78,6 +72,7 @@ class EditNameStater extends State<EditNamePage> {
                               right: 50,
                               left: 80 / 2),
                           child: CutCornerTextField(
+                            textInputAction: TextInputAction.next,
                             controller: userNameEditingController,
                             hintText: "username",
                             width: 200,
@@ -91,6 +86,7 @@ class EditNameStater extends State<EditNamePage> {
                               right: 50,
                               left: 80 / 2),
                           child: CutCornerTextField(
+                            textInputAction: TextInputAction.next,
                             isPassword: true,
                             controller: passwordEditingController,
                             hintText: "password",
@@ -196,10 +192,9 @@ class EditNameStater extends State<EditNamePage> {
         },
       ),
       onKey: (event) {
-        if (event.runtimeType == RawKeyUpEvent) {
-          if (event.data.logicalKey == LogicalKeyboardKey.enter) {
-            sendImJoining();
-          }
+        print(event.logicalKey.keyLabel);
+        if (event.logicalKey == LogicalKeyboardKey.enter && event.runtimeType == RawKeyUpEvent) {
+          sendImJoining();
         }
       },
     );

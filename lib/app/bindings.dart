@@ -5,10 +5,13 @@ import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:socket_io_client/socket_io_client.dart';
 import 'package:telegram_flutter/core/data/config/stream_socket.dart';
 import 'package:telegram_flutter/core/data/datasources/remote/chat_datasource.dart';
+import 'package:telegram_flutter/core/data/datasources/remote/user_datasource.dart';
 import 'package:telegram_flutter/core/data/repositories/chat_repository.dart';
-import 'package:telegram_flutter/presentation/sharedBloc/socket_bloc.dart';
+import 'package:telegram_flutter/core/data/repositories/user_repository.dart';
+import 'package:telegram_flutter/presentation/sharedBloc/user/user_bloc.dart';
 
 import '../core/data/config/logging_interceptor.dart';
+import '../presentation/sharedBloc/socket/socket_bloc.dart';
 
 class AppBindingsBloc extends StatelessWidget {
   final Widget child;
@@ -52,11 +55,16 @@ class AppBindingsBloc extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _dio();
+    UserRepository userRepository = UserRepository(UserDataSource(dio, socket));
     return MultiBlocProvider(providers: [
       BlocProvider(
         create: (context) {
-          return SocketBloc(
-              ChatRepository(ChatDataSource(dio, socket, streamSocket)));
+          return SocketBloc(ChatRepository(ChatDataSource(dio, socket, streamSocket)), userRepository);
+        },
+      ),
+      BlocProvider(
+        create: (context) {
+          return UserBloc(userRepository);
         },
       ),
     ], child: child);

@@ -9,6 +9,7 @@ class CutCornerTextField extends StatefulWidget {
   final TextEditingController? controller;
   final Function? icon2Click;
   final bool? isPassword;
+  final TextInputAction? textInputAction;
   bool _showPassword = false;
 
   CutCornerTextField(
@@ -20,7 +21,7 @@ class CutCornerTextField extends StatefulWidget {
       this.hintText,
       this.controller,
       this.icon2Click,
-      this.isPassword})
+      this.isPassword, this.textInputAction})
       : super(key: key);
 
   @override
@@ -88,6 +89,7 @@ class _CutCornerTextFieldStater extends State<CutCornerTextField> {
                               widget._showPassword == false)
                           ? true
                           : false,
+                      textInputAction: widget.textInputAction,
                       controller: widget.controller,
                       decoration: InputDecoration(
                         hintText: widget.hintText,

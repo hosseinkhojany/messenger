@@ -1,9 +1,9 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:telegram_flutter/presentation/sharedBloc/socket_bloc.dart';
 
 import '../../core/data/models/message.dart';
+import '../sharedBloc/socket/socket_bloc.dart';
 
 extension BlocExt on BuildContext{
   sendImTypingEvent(){

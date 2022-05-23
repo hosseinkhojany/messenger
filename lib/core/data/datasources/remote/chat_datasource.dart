@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
 import 'package:socket_io_client/socket_io_client.dart';
-import 'package:telegram_flutter/core/data/models/login_response.dart';
+import 'package:telegram_flutter/core/data/models/base_model.dart';
 
 import '../../config/stream_socket.dart';
 import '../../models/message.dart';
@@ -59,16 +59,30 @@ class ChatDataSource {
     }
   }
 
-  Future<LoginResponse> sendLogin(bool createAccount, String userName, String password) async {
+  Future<BaseModel> sendLogin(bool createAccount, String userName, String password) async {
     try{
       var response = await dio.post('/login', data: { "username": userName, "password": password, "createAccount": createAccount ? "truee" : "falsee"});
       if (response.statusCode == 200) {
-        return LoginResponse.fromJson(response.data);
+        return BaseModel.fromJson(response.data);
       } else {
-        return LoginResponse(false, "if you are in (Iran, Syria, Cuba, South Korea) make sure VPN connected");
+        return BaseModel(false, "if you are in (Iran, Syria, Cuba, South Korea) make sure VPN connected");
       }
     }catch(e){
-      return LoginResponse(false, "if you are in (Iran, Syria, Cuba, South Korea) make sure VPN connected");
+      return BaseModel(false, "if you are in (Iran, Syria, Cuba, South Korea) make sure VPN connected");
+    }
+  }
+
+
+  Future<BaseModel> sendUpdateProfile(String userName, String avatar) async {
+    try{
+      var response = await dio.post('/login', data: { "username": userName, "avatar": avatar});
+      if (response.statusCode == 200) {
+        return BaseModel.fromJson(response.data);
+      } else {
+        return BaseModel(false, "if you are in (Iran, Syria, Cuba, South Korea) make sure VPN connected");
+      }
+    }catch(e){
+      return BaseModel(false, "if you are in (Iran, Syria, Cuba, South Korea) make sure VPN connected");
     }
   }
 

@@ -5,6 +5,7 @@
     <color name="loginFormBackground">#55D4AB</color>
     <color name="topItemLoginFormBackground">#00BD8F</color>
     <color name="tabBarBackground">#331F5E</color>
+    <color name="sideMenuBackground">#4A0013</color>
 
 
     <color name="gradientColor1">#dd5d3e</color>

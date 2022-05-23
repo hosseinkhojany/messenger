@@ -4,6 +4,7 @@ import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:telegram_flutter/core/data/models/message.dart';
 
 import '../../../core/utils/ext.dart';
+import '../../../gen/colors.gen.dart';
 
 class MessageWidget extends StatefulWidget {
   double width = 0, height = 60;
@@ -70,10 +71,10 @@ class _MyWidgetState extends State<MessageWidget> {
                             shape: BoxShape.rectangle,
                             gradient: LinearGradient(
                               colors: [
-                                HexColor("#dd5d3e"),
-                                HexColor("#ec603e"),
-                                HexColor("#2d3271"),
-                                HexColor("#212e67"),
+                                ColorName.gradientColor1,
+                                ColorName.gradientColor2,
+                                ColorName.gradientColor3,
+                                ColorName.gradientColor4,
                               ],
                               begin: Alignment(-1.0, -2.0),
                               end: Alignment(1.0, 2.0),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:telegram_flutter/gen/colors.gen.dart';
 import 'package:telegram_flutter/presentation/globalWidgets/icon_shadow.dart';
 
 import '../../../core/utils/ext.dart';
@@ -104,8 +105,8 @@ class _CustomTabBarState extends State<CustomTabBar> {
                   gradient: itSelected
                       ? LinearGradient(
                           colors: [
-                            HexColor("#dd5d3e"),
-                            HexColor("#ec603e"),
+                            ColorName.gradientColor1,
+                            ColorName.gradientColor2,
                           ],
                           begin: Alignment(-1.0, -2.0),
                           end: Alignment(1.0, 2.0),
@@ -155,8 +156,8 @@ class _CustomTabBarState extends State<CustomTabBar> {
                   gradient: itSelected
                       ? LinearGradient(
                           colors: [
-                            HexColor("#dd5d3e"),
-                            HexColor("#ec603e"),
+                            ColorName.gradientColor1,
+                            ColorName.gradientColor2,
                           ],
                           begin: Alignment(-1.0, -2.0),
                           end: Alignment(1.0, 2.0),
@@ -281,10 +282,10 @@ class _CustomTabBarState extends State<CustomTabBar> {
       shaderCallback: (Rect bounds) {
         return LinearGradient(
           colors: [
-            HexColor("#dd5d3e"),
-            HexColor("#ec603e"),
-            HexColor("#2d3271"),
-            HexColor("#212e67"),
+            ColorName.gradientColor1,
+            ColorName.gradientColor2,
+            ColorName.gradientColor3,
+            ColorName.gradientColor2,
           ],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,

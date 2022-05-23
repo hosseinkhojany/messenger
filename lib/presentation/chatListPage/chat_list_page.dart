@@ -51,7 +51,7 @@ class _ChatListPageState extends State<ChatListPage> {
                       padding: EdgeInsets.only(
                           right: 10, top: 25, bottom: 25, left: 10),
                       child: CustomTabBar(
-                        background: HexColor("331F5E"),
+                        background: ColorName.tabBarBackground,
                         iconColor: Colors.white,
                         orientation: CustomTabBarOrientation.horizontal,
                         customTabBarItems: tabItems,
@@ -137,7 +137,7 @@ class _ChatListPageState extends State<ChatListPage> {
                       padding: EdgeInsets.only(
                           right: 10, top: 20, bottom: 10, left: 25),
                       child: CustomTabBar(
-                        background: HexColor("331F5E"),
+                        background: ColorName.tabBarBackground,
                         iconColor: Colors.white,
                         orientation: CustomTabBarOrientation.vertical,
                         customTabBarItems: tabItems,

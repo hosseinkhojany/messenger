@@ -2,16 +2,18 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:telegram_flutter/core/data/models/message.dart';
+import 'package:telegram_flutter/core/data/repositories/chat_repository.dart';
+import 'package:telegram_flutter/core/data/repositories/user_repository.dart';
 import 'package:telegram_flutter/presentation/globalWidgets/app_snackbar.dart';
 
-import '../../core/data/repositories/chat_repository.dart';
+import '../../../core/data/datasources/local/sharedStore.dart';
 
 part 'socket_event.dart';
-
 part 'socket_state.dart';
 
 class SocketBloc extends Bloc<SocketEvent, SocketState> {
   final ChatRepository _chatRepository;
+  final UserRepository _userRepository;
 
   List<MessageModel> messages = [];
   List<UserTyping> typingUser = [];
@@ -23,7 +25,7 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
 
   String userName = "";
 
-  SocketBloc(this._chatRepository) : super(SocketConnectedState()) {
+  SocketBloc(this._chatRepository, this._userRepository) : super(SocketConnectedState()) {
     _chatRepository.socketConnected(() {
       _chatRepository.listen().listen(
         (event) {
@@ -107,40 +109,61 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
     });
   }
 
+  bool isSignedIn = false;
+  bool loginLoading = false;
+
   sendLoginAndJoin(bool createAccount, String userName, String password, Emitter<SocketState> emit) async {
-    emit(UserJoinedState(false, true));
-    await _chatRepository.login(createAccount, userName, password).then((response) async {
-      if (response.success) {
-        UserJoined inProcessMessage = UserJoined(userName: userName, my: true);
-        await _chatRepository.sendImJoined(userName).then((value) {
-          if (!value) {
-            AppSnackBar.show("if you are in (Iran, Syria, Cuba, South Korea) make sure VPN connected");
-            emit(UserJoinedState(false, false));
-          } else {
-            AppSnackBar.show(response.message);
-            addMessage(inProcessMessage);
-            emit(UserJoinedState(true, false));
-          }
-        });
-      } else {
-        AppSnackBar.show(response.message);
-        emit(UserJoinedState(false, false));
-      }
-    });
+    if(!isSignedIn && !loginLoading){
+      loginLoading = true;
+      emit(UserJoinedState(false, true));
+      await _userRepository.login(createAccount, userName, password).then((response) async {
+        if (response.success) {
+          UserJoined inProcessMessage = UserJoined(userName: userName, my: true);
+          await _chatRepository.sendImJoined(userName).then((value) {
+            if (!value) {
+              AppSnackBar.show("if you are in (Iran, Syria, Cuba, South Korea) make sure VPN connected");
+              emit(UserJoinedState(false, false));
+              isSignedIn = false;
+              loginLoading = false;
+            } else {
+              AppSnackBar.show(response.message);
+              addMessage(inProcessMessage);
+              emit(UserJoinedState(true, false));
+              isSignedIn = true;
+              loginLoading = false;
+            }
+          });
+        } else {
+          AppSnackBar.show(response.message);
+          emit(UserJoinedState(false, false));
+          SharedStore.setUserName(userName);
+          isSignedIn = false;
+          loginLoading = false;
+        }
+      });
+    }
   }
 
   sendImJoin(String userName, Emitter<SocketState> emit) async {
-    emit(UserJoinedState(false, true));
-    UserJoined inProcessMessage = UserJoined(userName: userName, my: true);
-    await _chatRepository.sendImJoined(userName).then((value) {
-      if (!value) {
-        AppSnackBar.show("if you are in (Iran, Syria, Cuba, South Korea) make sure VPN connected");
-        emit(UserJoinedState(false, false));
-      } else {
-        addMessage(inProcessMessage);
-        emit(UserJoinedState(true, false));
-      }
-    });
+    if(!isSignedIn && !loginLoading){
+      loginLoading = true;
+      emit(UserJoinedState(false, true));
+      UserJoined inProcessMessage = UserJoined(userName: userName, my: true);
+      await _chatRepository.sendImJoined(userName).then((value) {
+        if (!value) {
+          AppSnackBar.show("if you are in (Iran, Syria, Cuba, South Korea) make sure VPN connected");
+          emit(UserJoinedState(false, false));
+          isSignedIn = false;
+          loginLoading = false;
+        } else {
+          addMessage(inProcessMessage);
+          emit(UserJoinedState(true, false));
+          SharedStore.setUserName(userName);
+          isSignedIn = true;
+          loginLoading = false;
+        }
+      });
+    }
   }
 
   sendImLeft(Emitter<SocketState> emit) {

@@ -1,6 +1,6 @@
 name: telegram_flutter
-description: A new Flutter project.
-
+description: An fast compatible and fully customizable Telegram client for Flutter.
+homepage: https://flutterchatting.herokuapp.com/
 version: 1.0.0+1
 
 environment:
@@ -32,6 +32,7 @@ dependencies:
   shared_preferences: ^2.0.15
   flutter_sticky_header: ^0.6.2
   responsive_framework: ^0.2.0
+  image: ^3.0.2
 
 dev_dependencies:
   flutter_test:

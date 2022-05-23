@@ -1,7 +1,7 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
-import 'package:telegram_flutter/presentation/chatPage/chat_page.dart';
 import 'package:telegram_flutter/presentation/editNamePage/edit_name_page.dart';
+import 'package:telegram_flutter/presentation/unitHorizontalScreen/horizontal_merged_chatlist_chatpage_screen.dart';
 
 
 const String EDIT_NAME_PAGE = "/editName";
@@ -36,7 +36,7 @@ class AppRouter {
       // return PageTransition(child: SignUpScreen(), type: PUSH_ANIMATION);
         return PageRouteBuilder(
           pageBuilder: (context, animation, secondaryAnimation) {
-            return const ChatPage();
+            return MergedChatListChatPageScreen();
           },
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return globalTransaction(

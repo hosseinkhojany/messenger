@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:telegram_flutter/core/data/models/chat.dart';
 import 'package:telegram_flutter/core/utils/ext.dart';
 import 'package:telegram_flutter/gen/assets.gen.dart';
+import 'package:telegram_flutter/gen/colors.gen.dart';
 
 class ChatItem extends StatelessWidget {
   final ChatModel chatModel;
@@ -29,9 +30,9 @@ class ChatItem extends StatelessWidget {
                 gradient: model.isActive
                     ? LinearGradient(
                         colors: [
-                          HexColor("#dd5d3e"),
-                          HexColor("#2d3271"),
-                          HexColor("#212e67"),
+                          ColorName.gradientColor1,
+                          ColorName.gradientColor3,
+                          ColorName.gradientColor4,
                         ],
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
