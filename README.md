@@ -5,7 +5,6 @@
 ![GitHub language count](https://img.shields.io/github/languages/count/hosseinkhojany/Telegram_Flutter)
 ![GitHub top language](https://img.shields.io/github/languages/top/hosseinkhojany/Telegram_Flutter)
 ![GitHub](https://img.shields.io/github/license/hosseinkhojany/Telegram_Flutter?color=yellow)
-![GitHub commit activity](https://img.shields.io/github/commit-activity/m/hosseinkhojany/Telegram_Flutter?color=brightgreen&label=commits)
 
 
 ## ℹ️ About
