@@ -6,7 +6,6 @@
 ![GitHub top language](https://img.shields.io/github/languages/top/hosseinkhojany/Telegram_Flutter)
 ![GitHub](https://img.shields.io/github/license/hosseinkhojany/Telegram_Flutter?color=yellow)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/hosseinkhojany/Telegram_Flutter?color=brightgreen&label=commits)
-![GitHub commit activity](https://img.shields.io/badge/License-Apache%202.0-blue.svg)
 
 
 ## ℹ️ About
