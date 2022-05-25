@@ -19,7 +19,7 @@ Go to the [Releases](https://github.com/hosseinkhojany/Telegram_Flutter/releases
 
 Deployment is not currently in use.
 
-## 💻 Built with
+## 🛠 Built with
 
 - Flutter
 - Dart
@@ -29,6 +29,7 @@ Deployment is not currently in use.
   - Repository Pattern
   - Bloc Pattern
   - ![1_IHfegWDCScf22RQcO_rbZg](https://user-images.githubusercontent.com/37432839/169803415-c631bc7c-dab1-4de3-a8aa-b4e67de68313.png)
+- <a href="https://github.com/hosseinkhojany/Flutter_Telegram_Backend">You can see backend project in this repository</a>
 
 
 ## 🍃 How to Setup
@@ -65,6 +66,14 @@ Deployment is not currently in use.
 ## 👑 Contributing
 
 If you want to contribute to this project and make it better, your help is very welcome.
+
+
+
+## ✨ Roadmap
+
+![roadmap](https://user-images.githubusercontent.com/37432839/170199369-ecf81904-5a9e-4e11-90d8-ba5e9888c045.jpg)
+
+
 
 ## ❤️ Thanks
 
