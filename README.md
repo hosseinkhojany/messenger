@@ -28,8 +28,7 @@ Deployment is not currently in use.
   - MVI Architecture
   - Repository Pattern
   - Bloc Pattern
-  -
-  -  ![1_IHfegWDCScf22RQcO_rbZg](https://user-images.githubusercontent.com/37432839/169803415-c631bc7c-dab1-4de3-a8aa-b4e67de68313.png)
+  - ![1_IHfegWDCScf22RQcO_rbZg](https://user-images.githubusercontent.com/37432839/169803415-c631bc7c-dab1-4de3-a8aa-b4e67de68313.png)
 - <a href="https://github.com/hosseinkhojany/Flutter_Telegram_Backend">You can see backend project in this repository</a>
 
 
