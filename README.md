@@ -66,13 +66,16 @@ Deployment is not currently in use.
 
 If you want to contribute to this project and make it better, your help is very welcome.
 
-## ❤️ Thanks
-
-Thanks to everyone who supported
 
 ## 🌠 Roadmap
 
 ![roadmap](https://user-images.githubusercontent.com/37432839/170199369-ecf81904-5a9e-4e11-90d8-ba5e9888c045.jpg)
+
+
+
+## ❤️ Thanks
+
+Thanks to everyone who supported
 
 
 # License
