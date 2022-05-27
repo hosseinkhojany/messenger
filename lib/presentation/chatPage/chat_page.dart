@@ -8,6 +8,7 @@ import 'package:telegram_flutter/gen/colors.gen.dart';
 import 'package:telegram_flutter/presentation/chatPage/ext.dart';
 import 'package:telegram_flutter/presentation/chatPage/components/message_widget.dart';
 
+import '../globalWidgets/customDialog/app_dialogs.dart';
 import '../globalWidgets/improvedScrolling/MMB_scroll_cursor_activity.dart';
 import '../globalWidgets/improvedScrolling/config.dart';
 import '../globalWidgets/improvedScrolling/custom_behavior.dart';
@@ -130,6 +131,16 @@ class ChatPageStater extends State<ChatPage> {
                     child: Container(
                         child: Row(
                           children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: 10),
+                              child: InkWell(
+                                      child: Icon(Icons.emoji_emotions_rounded,
+                                          color: Colors.white),
+                                      onTap: (){
+                                        AppDialogs().showLottiePicker(context);
+                                      },
+                                    )
+                            ),
                             Expanded(
                               child: Padding(
                                 padding:

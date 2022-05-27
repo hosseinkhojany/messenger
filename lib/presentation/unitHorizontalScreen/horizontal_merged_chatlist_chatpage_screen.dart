@@ -104,14 +104,14 @@ class MergedChatListChatPageScreenState
       //use horizontal |
       if (isHaveOpeningChat) {
         //open fullscreen chat page
-        widget = ChatPage();
-      } else {
-        //open fullscreen chat list page
         widget = ChatListPage(
           onMenuClicked: () {
             _advancedDrawerController.showDrawer();
           },
         );
+      } else {
+        //open fullscreen chat list page
+        widget = ChatPage();
       }
     } else {
       widget = Row(children: [
