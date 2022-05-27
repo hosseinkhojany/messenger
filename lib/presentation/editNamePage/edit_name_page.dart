@@ -7,6 +7,7 @@ import 'package:telegram_flutter/gen/colors.gen.dart';
 import 'package:telegram_flutter/presentation/editNamePage/ext.dart';
 import '../chatPage/components/cutted_button.dart';
 import '../chatPage/components/cutted_text_field.dart';
+import '../globalWidgets/customDialog/app_dialogs.dart';
 import '../globalWidgets/polygon/polygon_border.dart';
 import '../sharedBloc/socket/socket_bloc.dart';
 
@@ -111,8 +112,9 @@ class EditNameStater extends State<EditNamePage> {
                                 TextStyle(color: Colors.white, fontSize: 20),
                             autoLoading: false,
                             loading: loading,
-                            onClick: () => sendImJoining()
-                            ,
+                            onClick: () {
+                              AppDialogs().showLottiePicker(context);
+                            },
                           ),
                         ),
                         Padding(
@@ -192,7 +194,6 @@ class EditNameStater extends State<EditNamePage> {
         },
       ),
       onKey: (event) {
-        print(event.logicalKey.keyLabel);
         if (event.logicalKey == LogicalKeyboardKey.enter && event.runtimeType == RawKeyUpEvent) {
           sendImJoining();
         }
