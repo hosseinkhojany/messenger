@@ -113,7 +113,7 @@ class EditNameStater extends State<EditNamePage> {
                             autoLoading: false,
                             loading: loading,
                             onClick: () {
-                              AppDialogs().showLottiePicker(context);
+                              sendImJoining();
                             },
                           ),
                         ),
