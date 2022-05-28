@@ -21,6 +21,9 @@ extension BlocExt on BuildContext{
   sendMessage(String message, String messageType){
     read<SocketBloc>().add(SendMessageEvent(message, messageType));
   }
+  getHistory(){
+    read<SocketBloc>().add(GetHistoryEvent());
+  }
   getTypingUsersList(){
     return read<SocketBloc>().typingUser;
   }

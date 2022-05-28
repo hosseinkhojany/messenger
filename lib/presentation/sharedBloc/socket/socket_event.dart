@@ -22,3 +22,4 @@ class SendMessageEvent extends SocketEvent{
   final String messageType;
   SendMessageEvent(this.message, this.messageType);
 }
+class GetHistoryEvent extends SocketEvent{}

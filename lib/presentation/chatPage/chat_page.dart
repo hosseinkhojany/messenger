@@ -8,6 +8,7 @@ import 'package:telegram_flutter/core/utils/ext.dart';
 import 'package:telegram_flutter/gen/colors.gen.dart';
 import 'package:telegram_flutter/presentation/chatPage/ext.dart';
 import 'package:telegram_flutter/presentation/chatPage/components/message_widget.dart';
+import 'package:telegram_flutter/presentation/globalWidgets/improvedScrolling/lazy_load_scrollview.dart';
 
 import '../globalWidgets/customDialog/app_dialogs.dart';
 import '../globalWidgets/improvedScrolling/MMB_scroll_cursor_activity.dart';
@@ -37,6 +38,7 @@ class ChatPageStater extends State<ChatPage> {
 
   @override
   Widget build(BuildContext context) {
+    context.getHistory();
     context.sendImJoin(SharedStore.getUserName());
     return Scaffold(
       appBar: AppBar(
@@ -109,14 +111,17 @@ class ChatPageStater extends State<ChatPage> {
                         ),
                         child: ScrollConfiguration(
                           behavior: CustomScrollBehaviour(),
-                          child: CustomScrollView(
-                            controller: scrollControllerVertical,
-                            reverse: true,
-                            slivers: context
-                                .getMessages()
-                                .map((e) => MessageWidget(
-                                    width: 300, height: 60, message: e))
-                                .toList(),
+                          child: LazyLoadScrollView(
+                            onEndOfPage: () => context.getHistory(),
+                            child: CustomScrollView(
+                              reverse: true,
+                              controller: scrollControllerVertical,
+                              slivers: context
+                                  .getMessages()
+                                  .map((e) => MessageWidget(
+                                  width: 300, height: 60, message: e))
+                                  .toList(),
+                            ),
                           ),
                         ),
                       ),

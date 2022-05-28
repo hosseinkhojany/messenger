@@ -20,5 +20,6 @@ class ChatRepository{
   Future<bool> sendImLeft() => _chatDataSource.sendLeft();
   Future<bool> sendImTyping() => _chatDataSource.sendTyping();
   Future<bool> sendImTypingStop() => _chatDataSource.sendTypingStop();
+  Future<List<MessageModel>?> getHistory(int page) => _chatDataSource.getHistory(page);
 
 }

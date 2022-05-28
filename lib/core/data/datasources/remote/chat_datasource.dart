@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 import 'package:telegram_flutter/core/data/datasources/local/sharedStore.dart';
 import 'package:telegram_flutter/core/data/models/base_model.dart';
+import 'package:telegram_flutter/core/data/models/history.dart';
 
 import '../../config/stream_socket.dart';
 import '../../models/message.dart';
@@ -43,7 +44,7 @@ class ChatDataSource {
   Future<bool> sendMessage(String message, String messageType) {
     try {
       debugPrint("ME:$message");
-      socket.emit("new message", {"realName": SharedStore.getUserName(), "msg": message, "msgType": messageType});
+      socket.emit("new message", {"realName": SharedStore.getUserName(), "message": message, "messageType": messageType});
       return Future.value(true);
     } catch (e) {
       return Future.value(false);
@@ -84,6 +85,20 @@ class ChatDataSource {
       }
     }catch(e){
       return BaseModel(false, "if you are in (Iran, Syria, Cuba, South Korea) make sure VPN connected");
+    }
+  }
+
+
+  Future<List<MessageModel>?> getHistory(int page) async {
+    try{
+      var response = await dio.get('/history', queryParameters: { "username": userName, "page": page});
+      if (response.statusCode == 200) {
+        return History.fromJson(response.data).history;
+      } else {
+        return null;
+      }
+    }catch(e){
+      return null;
     }
   }
 

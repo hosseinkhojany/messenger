@@ -16,6 +16,7 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
   final UserRepository _userRepository;
 
   List<MessageModel> messages = [];
+  List<MessageModel> history_messages = [];
   List<UserTyping> typingUser = [];
 
   late DateTime lastTypingTime;
@@ -24,6 +25,8 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
   int typingTimerLength = 400;
 
   String userName = "";
+
+  int page = 0;
 
   SocketBloc(this._chatRepository, this._userRepository) : super(SocketConnectedState()) {
     _chatRepository.socketConnected(() {
@@ -92,6 +95,9 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
         case NewMessageReceivedEvent:
           emit(SocketNewMessageState());
           break;
+        case GetHistoryEvent:
+          getHistory(emit);
+          break;
       }
     });
   }
@@ -104,6 +110,17 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
         AppSnackBar.show("if you are in (Iran, Syria, Cuba, South Korea) make sure VPN connected");
       } else {
         addMessage(inProcessMessage);
+        emit(SocketNewMessageState());
+      }
+    });
+  }
+
+
+  getHistory(Emitter<SocketState> emit) {
+    debugPrint(page.toString());
+    _chatRepository.getHistory(++page).then((value) {
+      if (value?.isNotEmpty == true) {
+        addHistoryMessages(value!);
         emit(SocketNewMessageState());
       }
     });
@@ -260,6 +277,10 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
     result.add(message);
     result.addAll(messages);
     messages = result;
+  }
+
+  void addHistoryMessages(List<MessageModel> message){
+    messages.addAll(message);
   }
 
 }
