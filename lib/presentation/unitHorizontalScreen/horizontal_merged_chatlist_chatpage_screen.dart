@@ -60,9 +60,9 @@ class MergedChatListChatPageScreenState
                     color: Colors.black26,
                     shape: BoxShape.circle,
                   ),
-                  child: InkWell(
+                  child: GestureDetector(
                     child: Image.asset(
-                      'assets/images/flutter_logo.png',
+                      'assets/images/b.png',
                     ),
                   ),
                 ),

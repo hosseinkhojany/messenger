@@ -19,5 +19,6 @@ class UserLeftEvent extends SocketEvent{}
 class NewMessageReceivedEvent extends SocketEvent{}
 class SendMessageEvent extends SocketEvent{
   final String message;
-  SendMessageEvent(this.message);
+  final String messageType;
+  SendMessageEvent(this.message, this.messageType);
 }

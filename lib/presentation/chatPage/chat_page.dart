@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:telegram_flutter/core/data/datasources/local/sharedStore.dart';
+import 'package:telegram_flutter/core/utils/consts.dart';
 import 'package:telegram_flutter/core/utils/ext.dart';
 import 'package:telegram_flutter/gen/colors.gen.dart';
 import 'package:telegram_flutter/presentation/chatPage/ext.dart';
@@ -133,11 +134,13 @@ class ChatPageStater extends State<ChatPage> {
                           children: [
                             Padding(
                               padding: const EdgeInsets.only(left: 10),
-                              child: InkWell(
+                              child: GestureDetector(
                                       child: Icon(Icons.emoji_emotions_rounded,
                                           color: Colors.white),
                                       onTap: (){
-                                        AppDialogs().showLottiePicker(context);
+                                        AppDialogs().showLottiePicker(context, (emoji) {
+                                          context.sendMessage(emoji, MESSAGE_TYPE.lottie.name);
+                                        });
                                       },
                                     )
                             ),
@@ -178,10 +181,8 @@ class ChatPageStater extends State<ChatPage> {
                                                 extentOffset: cursorPos + length,
                                               );
                                         }
-                                        debugPrint("adding new line");
                                         return KeyEventResult.handled;
                                       } else {
-                                        debugPrint("ingored textfield fokos");
                                         return KeyEventResult.ignored;
                                       }
                                     },
@@ -204,7 +205,7 @@ class ChatPageStater extends State<ChatPage> {
                             ),
                             Padding(
                               padding: const EdgeInsets.only(right: 10),
-                              child: InkWell(
+                              child: GestureDetector(
                                 child: Icon(Icons.mic_none_rounded,
                                     color: Colors.white),
                                 onTap: () => sendMessage(),
@@ -212,7 +213,7 @@ class ChatPageStater extends State<ChatPage> {
                             ),
                             Padding(
                               padding: const EdgeInsets.only(right: 10),
-                              child: InkWell(
+                              child: GestureDetector(
                                 child:
                                 const Icon(Icons.send, color: Colors.white),
                                 onTap: () => sendMessage(),
@@ -270,7 +271,7 @@ class ChatPageStater extends State<ChatPage> {
   sendMessage() {
     if (textEditingController.text.toString().isNotEmpty) {
       context.sendImTypingStopEvent();
-      context.sendMessage(textEditingController.text.toString());
+      context.sendMessage(textEditingController.text.toString(), MESSAGE_TYPE.text.name);
       scrollControllerVertical.animateTo(
         scrollControllerVertical.position.minScrollExtent,
         duration: Duration(seconds: 1),

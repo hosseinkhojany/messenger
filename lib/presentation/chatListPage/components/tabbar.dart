@@ -77,7 +77,7 @@ class _CustomTabBarState extends State<CustomTabBar> {
     for (int i = 0; i < widget.customTabBarItems.length; i++) {
       CustomTabBarItem item = widget.customTabBarItems[i];
       bool itSelected = widget._selected == i;
-      Widget tab = InkWell(
+      Widget tab = GestureDetector(
         onTap: () {
           widget.onSelectedChanged?.call(i);
           setState(() {
@@ -128,7 +128,7 @@ class _CustomTabBarState extends State<CustomTabBar> {
     for (int i = 0; i < widget.customTabBarItems.length; i++) {
       CustomTabBarItem item = widget.customTabBarItems[i];
       bool itSelected = widget._selected == i;
-      Widget tab = InkWell(
+      Widget tab = GestureDetector(
         onTap: () {
           widget.onSelectedChanged?.call(i);
           setState(() {

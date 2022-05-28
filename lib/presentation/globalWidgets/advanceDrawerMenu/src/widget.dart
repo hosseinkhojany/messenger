@@ -174,9 +174,8 @@ class _AdvancedDrawerState extends State<AdvancedDrawer>
 
                               return Material(
                                 color: Colors.transparent,
-                                child: InkWell(
+                                child: GestureDetector(
                                   onTap: _controller.hideDrawer,
-                                  highlightColor: Colors.transparent,
                                   child: Container(),
                                 ),
                               );

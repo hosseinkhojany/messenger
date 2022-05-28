@@ -125,7 +125,7 @@ class EditNameStater extends State<EditNamePage> {
                               right: 50,
                               left: 110 / 2),
                           child: Center(
-                            child: InkWell(
+                            child: GestureDetector(
                               onTap: () {
                                 setState(() {
                                   createAccount = !createAccount;

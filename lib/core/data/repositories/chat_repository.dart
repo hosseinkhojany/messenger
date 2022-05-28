@@ -15,7 +15,7 @@ class ChatRepository{
   void socketConnecting(Function action) => _chatDataSource.socketConnecting(action);
   void socketConnectionFailed(Function action) => _chatDataSource.socketConnectionFailed(action);
   void socketDisconnected(Function action) => _chatDataSource.disposeAll(action);
-  Future<bool> sendMessage(String message) => _chatDataSource.sendMessage(message);
+  Future<bool> sendMessage(String message, String messageType) => _chatDataSource.sendMessage(message, messageType);
   Future<bool> sendImJoined(String userName) => _chatDataSource.sendJoin(userName);
   Future<bool> sendImLeft() => _chatDataSource.sendLeft();
   Future<bool> sendImTyping() => _chatDataSource.sendTyping();

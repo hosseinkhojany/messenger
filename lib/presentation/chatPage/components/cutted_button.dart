@@ -29,7 +29,7 @@ class CutCornerButton extends StatefulWidget {
 class _CutCornerButtonStater extends State<CutCornerButton> {
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return GestureDetector(
       onTap: () {
         if(widget.autoLoading ?? false){
           widget.loading = true;

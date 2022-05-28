@@ -179,7 +179,7 @@ class YYDialog {
           itemBuilder: (BuildContext context, int index) {
             return Material(
               color: Colors.white,
-              child: InkWell(
+              child: GestureDetector(
                 child: ListTile(
                   onTap: () {
                     if (onClickItemListener != null) {

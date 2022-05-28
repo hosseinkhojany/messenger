@@ -41,6 +41,7 @@ class AppBindingsBloc extends StatelessWidget {
 
   Socket socket = IO.io(
       'https://commander009.herokuapp.com/',
+      // "http://localhost:3000",
       OptionBuilder()
           .setTimeout(30 * 1000)
           .setTransports(['websocket'])

@@ -4,23 +4,31 @@ import 'dart:convert';
 class MessageModel{}
 
 class Message extends MessageModel{
+  String? realName;
   String? userName;
   String? message;
+  String? messageType;
   bool my = false;
 
-  Message({String? userName,
+  Message({
+    String? realName,
+    String? userName,
         String? message,
+        String? messageType,
         bool? my,
       }){
     this.userName = userName ?? "";
     this.message = message ?? "";
+    this.messageType = messageType ?? "";
     this.my = my ?? false;
   }
 
   factory Message.fromJson(Map<String, dynamic> json) {
     return Message(
+      realName: json['realName'],
       userName: json['username'],
       message: json['message'],
+      messageType: json['messageType'],
     );
   }
   String toJsonMessage() {

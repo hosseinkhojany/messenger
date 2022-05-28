@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
 import 'package:socket_io_client/socket_io_client.dart';
+import 'package:telegram_flutter/core/data/datasources/local/sharedStore.dart';
 import 'package:telegram_flutter/core/data/models/base_model.dart';
 
 import '../../config/stream_socket.dart';
@@ -39,10 +40,10 @@ class ChatDataSource {
     return streamSocket.getResponse;
   }
 
-  Future<bool> sendMessage(String message) {
+  Future<bool> sendMessage(String message, String messageType) {
     try {
       debugPrint("ME:$message");
-      socket.emit("new message", message);
+      socket.emit("new message", {"realName": SharedStore.getUserName(), "msg": message, "msgType": messageType});
       return Future.value(true);
     } catch (e) {
       return Future.value(false);

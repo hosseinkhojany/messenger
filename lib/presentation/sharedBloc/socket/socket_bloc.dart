@@ -87,7 +87,7 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
           sendImLeft(emit);
           break;
         case SendMessageEvent:
-          sendMessage((event as SendMessageEvent).message, emit);
+          sendMessage((event as SendMessageEvent).message,(event).messageType, emit);
           break;
         case NewMessageReceivedEvent:
           emit(SocketNewMessageState());
@@ -96,10 +96,10 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
     });
   }
 
-  sendMessage(String message, Emitter<SocketState> emit) {
+  sendMessage(String message,String messageType, Emitter<SocketState> emit) {
     Message inProcessMessage =
-        Message(userName: userName, message: message, my: true);
-    _chatRepository.sendMessage(message).then((value) {
+        Message(userName: userName, message: message,messageType: messageType, my: true);
+    _chatRepository.sendMessage(message, messageType).then((value) {
       if (!value) {
         AppSnackBar.show("if you are in (Iran, Syria, Cuba, South Korea) make sure VPN connected");
       } else {

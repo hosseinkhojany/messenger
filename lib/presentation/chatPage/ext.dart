@@ -18,8 +18,8 @@ extension BlocExt on BuildContext{
   sendImJoin(String username){
     read<SocketBloc>().add(UserJoinedEvent(username));
   }
-  sendMessage(String message){
-    read<SocketBloc>().add(SendMessageEvent(message));
+  sendMessage(String message, String messageType){
+    read<SocketBloc>().add(SendMessageEvent(message, messageType));
   }
   getTypingUsersList(){
     return read<SocketBloc>().typingUser;

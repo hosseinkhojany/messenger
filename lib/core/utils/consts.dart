@@ -12,6 +12,22 @@ class Constants{
   };
 }
 
+enum MESSAGE_TYPE {
+  text,
+  image,
+  video,
+  audio,
+  file,
+  location,
+  sticker,
+  contact,
+  voice,
+  video_call,
+  voice_call,
+  lottie,
+  gif,
+}
+
 extension GlobalBuildContextExt on BuildContext{
 
   bool isDesktop(){
