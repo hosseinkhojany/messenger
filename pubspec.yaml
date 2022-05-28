@@ -20,12 +20,12 @@ dependencies:
   http_interceptor: ^1.0.2
   flutter_bloc: ^8.0.1
   sealed_flutter_bloc: ^8.0.0
-  record: ^4.1.1
-  audio_session: ^0.1.6+1
-  just_audio_libwinmedia: ^0.0.4
-  just_audio: ^0.9.21
-  video_player: ^2.4.2
-  dart_vlc: ^0.0.2
+#  record: ^4.1.1
+#  audio_session: ^0.1.6+1
+#  just_audio_libwinmedia: ^0.0.4
+#  just_audio: ^0.9.21
+#  video_player: ^2.4.2
+#  dart_vlc: ^0.0.2
   flutter_neumorphic: ^3.2.0
   build_runner: ^2.1.9
   flutter_gen_runner: ^4.1.6
