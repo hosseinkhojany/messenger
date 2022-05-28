@@ -18,12 +18,23 @@ class MergedChatListChatPageScreen extends StatefulWidget {
 }
 
 class MergedChatListChatPageScreenState
-    extends State<MergedChatListChatPageScreen> {
+    extends State<MergedChatListChatPageScreen> with TickerProviderStateMixin {
   bool isHaveOpeningChat = false;
+  bool showProfileEdit = false;
   final _advancedDrawerController = AdvancedDrawerController();
+
+  late final AnimationController _controller = AnimationController(
+    duration: const Duration(milliseconds: 800),
+    vsync: this,
+  );
+  late final Animation<double> _animation = CurvedAnimation(
+    parent: _controller,
+    curve: Curves.fastOutSlowIn,
+  );
 
   @override
   void dispose() {
+    _controller.dispose();
     super.dispose();
   }
 
@@ -49,21 +60,57 @@ class MergedChatListChatPageScreenState
               mainAxisSize: MainAxisSize.max,
               children: [
                 Container(
-                  width: 128.0,
-                  height: 128.0,
                   margin: const EdgeInsets.only(
                     top: 24.0,
                     bottom: 64.0,
                   ),
-                  clipBehavior: Clip.antiAlias,
-                  decoration: const BoxDecoration(
-                    color: Colors.black26,
-                    shape: BoxShape.circle,
-                  ),
-                  child: GestureDetector(
-                    child: Image.asset(
-                      'assets/images/b.png',
-                    ),
+                  width: 128.0,
+                  height: 128.0,
+                  child: Stack(
+                    children: [
+                      Center(
+                        child: Container(
+                          width: 100.0,
+                          height: 100.0,
+                          clipBehavior: Clip.antiAlias,
+                          decoration: const BoxDecoration(
+                            color: Colors.black26,
+                            shape: BoxShape.circle,
+                          ),
+                          child: InkWell(
+                            onTap: () {
+                              debugPrint("haha");
+                            },
+                            onHover: (value) {
+                              debugPrint(value.toString());
+                              setState(
+                                () {
+                                  showProfileEdit = value;
+                                },
+                              );
+                            },
+                            child: Image.asset(
+                              'assets/images/b.png',
+                            ),
+                          ),
+                        ),
+                      ),
+                      if (showProfileEdit)
+                        ScaleTransition(
+                          scale: _animation,
+                          child: Container(
+                            margin: const EdgeInsets.only(
+                              top: 14.0,
+                              left: 14.0,
+                            ),
+                            child: Icon(Icons.edit),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                    ],
                   ),
                 ),
                 ListTile(
