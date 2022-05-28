@@ -282,5 +282,4 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
   void addHistoryMessages(List<MessageModel> message){
     messages.addAll(message);
   }
-
 }
