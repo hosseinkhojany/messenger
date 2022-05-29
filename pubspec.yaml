@@ -57,6 +57,9 @@ flutter_gen:
   colors:
     inputs:
       - assets/color/colors.xml
+  images:
+    inputs:
+      - assets/images/
 
 
 flutter:
@@ -64,4 +67,5 @@ flutter:
   uses-material-design: true
   assets:
     - assets/
+    - assets/images
     - assets/images/b.png
