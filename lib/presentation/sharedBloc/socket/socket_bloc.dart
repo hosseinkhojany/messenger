@@ -30,6 +30,7 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
 
   SocketBloc(this._chatRepository, this._userRepository) : super(SocketConnectedState()) {
     _chatRepository.socketConnected(() {
+      add(GetHistoryEvent());
       _chatRepository.listen().listen(
         (event) {
           if (event is UserTyping || event is UserTypingStop) {

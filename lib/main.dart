@@ -8,7 +8,7 @@ import 'package:lottie/lottie.dart';
 import 'package:telegram_flutter/app/getx_binding.dart';
 import 'package:telegram_flutter/app/router.dart';
 import 'package:telegram_flutter/presentation/editNamePage/edit_name_page.dart';
-import 'package:telegram_flutter/presentation/globalWidgets/customDialog/app_dialogs.dart';
+import 'package:telegram_flutter/presentation/chatPage/components/dialogs.dart';
 import 'package:telegram_flutter/presentation/globalWidgets/improvedScrolling/lazy_load_scrollview.dart';
 import 'package:telegram_flutter/presentation/unitHorizontalScreen/horizontal_merged_chatlist_chatpage_screen.dart';
 import 'app/bloc_binding.dart';
