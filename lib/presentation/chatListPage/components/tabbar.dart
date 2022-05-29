@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:telegram_flutter/gen/colors.gen.dart';
 import 'package:telegram_flutter/presentation/globalWidgets/icon_shadow.dart';
 
-import '../../../core/utils/ext.dart';
 
 class CustomTabBar extends StatefulWidget {
   final List<CustomTabBarItem> customTabBarItems;
@@ -55,7 +54,7 @@ class _CustomTabBarState extends State<CustomTabBar> {
       width: setWith(),
       decoration: BoxDecoration(
         color: widget.background,
-        borderRadius: BorderRadius.all(
+        borderRadius: const BorderRadius.all(
           Radius.circular(17),
         ),
         shape: BoxShape.rectangle,
@@ -103,7 +102,7 @@ class _CustomTabBarState extends State<CustomTabBar> {
                   color: itSelected ? Colors.black : Colors.transparent,
                   borderRadius: BorderRadius.circular(99),
                   gradient: itSelected
-                      ? LinearGradient(
+                      ? const LinearGradient(
                           colors: [
                             ColorName.gradientColor1,
                             ColorName.gradientColor2,
@@ -154,7 +153,7 @@ class _CustomTabBarState extends State<CustomTabBar> {
                   color: itSelected ? Colors.black : Colors.transparent,
                   borderRadius: BorderRadius.circular(99),
                   gradient: itSelected
-                      ? LinearGradient(
+                      ? const LinearGradient(
                           colors: [
                             ColorName.gradientColor1,
                             ColorName.gradientColor2,
@@ -269,7 +268,7 @@ class _CustomTabBarState extends State<CustomTabBar> {
         item.icon ?? Icons.extension,
         color: Colors.lightBlue.shade50,
         shadows: [
-          BoxShadow(
+          const BoxShadow(
             blurRadius: 6.0,
             color: Colors.black,
             offset: Offset(0, 0.3),
@@ -280,7 +279,7 @@ class _CustomTabBarState extends State<CustomTabBar> {
     return itSelected
         ? ShaderMask(
       shaderCallback: (Rect bounds) {
-        return LinearGradient(
+        return const LinearGradient(
           colors: [
             ColorName.gradientColor1,
             ColorName.gradientColor2,
