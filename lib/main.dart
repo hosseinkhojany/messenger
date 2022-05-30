@@ -44,7 +44,7 @@ class MyApp extends StatelessWidget {
   }
 
   String getInitialRoute() {
-    return SharedStore.isFirstRun()
+    return !SharedStore.isFirstRun()
         ? introPage
         : SharedStore.getUserName().isNotEmpty
             ? CHAT_PAGE

@@ -38,15 +38,20 @@ class SharedStore {
     return getString(userName, defValue);
   }
 
-  static Future<bool> setUserName(String value) async {
+  static Future<bool> setUserName(String value) {
     return setString(userName, value);
   }
 
-  static bool isFirstRun([bool defValue = true]) {
+  static bool isFirstRun([bool defValue = false]) {
     return getBool(firstRun, defValue);
   }
 
-  static Future<bool> setFirstRun(bool value) async {
-    return setBool(userName, value);
+  static Future<bool> setFirstRun(bool value) {
+    return setBool(firstRun, value);
   }
+
+  static clearAll() async{
+    await _prefsInstance?.clear();
+  }
+
 }

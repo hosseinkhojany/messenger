@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:telegram_flutter/app/router.dart';
 import 'package:telegram_flutter/core/data/datasources/local/sharedStore.dart';
+import 'package:telegram_flutter/gen/colors.gen.dart';
 import 'package:telegram_flutter/presentation/introScreen/components/page_view_indictator.dart';
 import 'package:telegram_flutter/presentation/introScreen/components/page_view_model.dart';
 import 'package:telegram_flutter/presentation/introScreen/data/page_view_data.dart';
@@ -40,6 +41,7 @@ class _IntroScreenState extends State<IntroScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: ColorName.chatPageMainBackground,
       body: SafeArea(
           child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -73,11 +75,9 @@ class _IntroScreenState extends State<IntroScreen> {
             alignment: Alignment.bottomRight,
             child: TextButton(
                 onPressed: () {
+                  SharedStore.setFirstRun(true);
                   Navigator.pushReplacementNamed(
-                    context,
-                      SharedStore.getUserName().isNotEmpty
-                        ? CHAT_PAGE
-                        : EDIT_NAME_PAGE);
+                    context, routeChooser());
                 },
                 child: const Text('Skip')),
           ),
@@ -85,5 +85,12 @@ class _IntroScreenState extends State<IntroScreen> {
         ],
       )),
     );
+  }
+  String routeChooser(){
+    if(SharedStore.getUserName().isNotEmpty){
+      return CHAT_PAGE;
+    }else{
+      return EDIT_NAME_PAGE;
+    }
   }
 }
