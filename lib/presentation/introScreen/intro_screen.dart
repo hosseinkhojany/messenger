@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:telegram_flutter/app/router.dart';
 import 'package:telegram_flutter/core/data/datasources/local/sharedStore.dart';
 import 'package:telegram_flutter/presentation/introScreen/components/page_view_indictator.dart';
@@ -19,6 +20,8 @@ class _IntroScreenState extends State<IntroScreen> {
 
   @override
   void initState() {
+    super.initState();
+    // SharedStore.setFirstRun(false);
     pageController.addListener(() {
       if (pageController.page!.round() != page) {
         setState(() {
@@ -26,7 +29,6 @@ class _IntroScreenState extends State<IntroScreen> {
         });
       }
     });
-    super.initState();
   }
 
   @override
@@ -70,11 +72,13 @@ class _IntroScreenState extends State<IntroScreen> {
           Align(
             alignment: Alignment.bottomRight,
             child: TextButton(
-                onPressed: () => Navigator.pushReplacementNamed(
+                onPressed: () {
+                  Navigator.pushReplacementNamed(
                     context,
-                    SharedStore.getUserName().isNotEmpty
+                      SharedStore.getUserName().isNotEmpty
                         ? CHAT_PAGE
-                        : EDIT_NAME_PAGE),
+                        : EDIT_NAME_PAGE);
+                },
                 child: const Text('Skip')),
           ),
           const SizedBox(height: 15),

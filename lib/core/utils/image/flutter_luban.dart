@@ -40,9 +40,9 @@ class Luban {
 
   static List<String?> _lubanCompressList(List<CompressObject> objects) {
     var results = [];
-    objects.forEach((_o) {
+    for (var _o in objects) {
       results.add(_lubanCompress(_o));
-    });
+    }
     return results as List<String?>;
   }
 

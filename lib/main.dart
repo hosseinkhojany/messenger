@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:telegram_flutter/app/getx_binding.dart';
 import 'package:telegram_flutter/app/router.dart';
 import 'package:telegram_flutter/presentation/editNamePage/edit_name_page.dart';
+import 'package:telegram_flutter/presentation/introScreen/intro_screen.dart';
 import 'package:telegram_flutter/presentation/unitHorizontalScreen/horizontal_merged_chatlist_chatpage_screen.dart';
 import 'app/bloc_binding.dart';
 import 'app/bloc_observer.dart';
@@ -31,13 +32,22 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Telegram Chat app',
       initialBinding: GetxBinding(),
-      initialRoute: introPage,
-      // initialRoute: SharedStore.getUserName().isNotEmpty ? CHAT_PAGE : EDIT_NAME_PAGE,
+      // initialRoute: introPage,
+      initialRoute: getInitialRoute(),
       routes: {
         EDIT_NAME_PAGE: (context) => const EditNamePage(),
-        CHAT_PAGE: (context) => MergedChatListChatPageScreen()
+        CHAT_PAGE: (context) => MergedChatListChatPageScreen(),
+        introPage: (context) => const IntroScreen()
       },
       onGenerateRoute: AppRouter().generateRoute,
     );
+  }
+
+  String getInitialRoute() {
+    return SharedStore.isFirstRun()
+        ? introPage
+        : SharedStore.getUserName().isNotEmpty
+            ? CHAT_PAGE
+            : EDIT_NAME_PAGE;
   }
 }

@@ -37,7 +37,11 @@ class PageViewIndictator extends StatelessWidget {
         ElevatedButton(
           onPressed: () {
             if (page == count - 1) {
-              Navigator.pushReplacementNamed(context, SharedStore.getUserName().isNotEmpty ? CHAT_PAGE : EDIT_NAME_PAGE);
+              Navigator.pushReplacementNamed(
+                  context,
+                  SharedStore.getString(userName).isNotEmpty
+                      ? CHAT_PAGE
+                      : EDIT_NAME_PAGE);
             } else {
               pageController.animateToPage(page + 1,
                   duration: const Duration(milliseconds: 500),
