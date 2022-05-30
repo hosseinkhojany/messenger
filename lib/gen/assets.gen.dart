@@ -15,6 +15,18 @@ class $AssetsImagesGen {
   /// File path: assets/images/b.png
   AssetGenImage get b => const AssetGenImage('assets/images/b.png');
 
+  /// File path: assets/images/beautiful_messenger.png
+  AssetGenImage get beautifulMessenger =>
+      const AssetGenImage('assets/images/beautiful_messenger.png');
+
+  /// File path: assets/images/cross_platform.png
+  AssetGenImage get crossPlatform =>
+      const AssetGenImage('assets/images/cross_platform.png');
+
+  /// File path: assets/images/open_source.png
+  AssetGenImage get openSource =>
+      const AssetGenImage('assets/images/open_source.png');
+
   /// File path: assets/images/pokemon_icons.png
   AssetGenImage get pokemonIcons =>
       const AssetGenImage('assets/images/pokemon_icons.png');

@@ -1,4 +1,4 @@
-import 'package:telegram_flutter/presentation/introScreen/resources/asset_manager.dart';
+import 'package:telegram_flutter/gen/assets.gen.dart';
 
 class PageViewData {
   final String title;
@@ -12,18 +12,18 @@ class PageViewData {
 final pageViewData = [
   PageViewData(
       title: 'Beautiful Messenger',
-      subtitle: 'This is a beautiful messenger',
-      imagePath: AssetManager.beautifulMessengerPath),
+      subtitle: '',
+      imagePath: Assets.images.beautifulMessenger.path),
   PageViewData(
       title: 'Personalizable',
       subtitle: '',
-      imagePath: AssetManager.beautifulMessengerPath),
+      imagePath: Assets.images.beautifulMessenger.path),
   PageViewData(
       title: 'Cross platform',
       subtitle: '',
-      imagePath: AssetManager.crossPlatformPath),
+      imagePath: Assets.images.crossPlatform.path),
   PageViewData(
       title: 'Open Source',
       subtitle: '',
-      imagePath: AssetManager.openSourcerPath),
+      imagePath:Assets.images.openSource.path),
 ];
