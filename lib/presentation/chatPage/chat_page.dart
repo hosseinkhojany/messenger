@@ -10,7 +10,7 @@ import 'package:telegram_flutter/presentation/chatPage/ext.dart';
 import 'package:telegram_flutter/presentation/chatPage/components/message_widget.dart';
 import 'package:telegram_flutter/presentation/globalWidgets/improvedScrolling/lazy_load_scrollview.dart';
 
-import '../globalWidgets/customDialog/app_dialogs.dart';
+import 'components/bottomSheets.dart';
 import '../globalWidgets/improvedScrolling/MMB_scroll_cursor_activity.dart';
 import '../globalWidgets/improvedScrolling/config.dart';
 import '../globalWidgets/improvedScrolling/custom_behavior.dart';
@@ -38,7 +38,6 @@ class ChatPageStater extends State<ChatPage> {
 
   @override
   Widget build(BuildContext context) {
-    context.getHistory();
     context.sendImJoin(SharedStore.getUserName());
     return Scaffold(
       appBar: AppBar(
@@ -143,7 +142,7 @@ class ChatPageStater extends State<ChatPage> {
                                       child: Icon(Icons.emoji_emotions_rounded,
                                           color: Colors.white),
                                       onTap: (){
-                                        AppDialogs().showLottiePicker(context, (emoji) {
+                                        ChatPageBottomSheets().showLottiePicker(context, (emoji) {
                                           context.sendMessage(emoji, MESSAGE_TYPE.lottie.name);
                                         });
                                       },
