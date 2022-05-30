@@ -7,7 +7,6 @@ import 'package:telegram_flutter/gen/colors.gen.dart';
 import 'package:telegram_flutter/presentation/editNamePage/ext.dart';
 import '../chatPage/components/cutted_button.dart';
 import '../chatPage/components/cutted_text_field.dart';
-import '../chatPage/components/dialogs.dart';
 import '../globalWidgets/polygon/polygon_border.dart';
 import '../sharedBloc/socket/socket_bloc.dart';
 
@@ -57,6 +56,23 @@ class EditNameStater extends State<EditNamePage> {
                   child: Container(
                     width: formSize,
                     height: formSize,
+                    decoration: ShapeDecoration(
+                      shadows: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.8),
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset: const Offset(0, 1),
+                        ),
+                      ],
+                      color: ColorName.loginFormBackground,
+                      shape: const PolygonBorder(
+                        rotate: 90,
+                        borderRadius: 12,
+                        sides: 6,
+                        side: BorderSide.none,
+                      ),
+                    ),
                     child: Stack(
                       children: [
                         Padding(
@@ -64,7 +80,7 @@ class EditNameStater extends State<EditNamePage> {
                               top: 75, right: 6, left: formSize / 2 - 30),
                           child: Text(
                             createAccount ? "Sign Up" : "Sign In",
-                            style: TextStyle(color: Colors.white, fontSize: 20),
+                            style: const TextStyle(color: Colors.white, fontSize: 20),
                           ),
                         ),
                         Padding(
@@ -109,7 +125,7 @@ class EditNameStater extends State<EditNamePage> {
                             text: createAccount ? "Create" : "LOGIN",
                             background: ColorName.chatPageMainBackground,
                             textStyle:
-                                TextStyle(color: Colors.white, fontSize: 20),
+                                const TextStyle(color: Colors.white, fontSize: 20),
                             autoLoading: false,
                             loading: loading,
                             onClick: () {
@@ -135,29 +151,12 @@ class EditNameStater extends State<EditNamePage> {
                                 createAccount
                                     ? "I have account"
                                     : "Create Account",
-                                style: TextStyle(color: Colors.white),
+                                style: const TextStyle(color: Colors.white),
                               ),
                             ),
                           ),
                         ),
                       ],
-                    ),
-                    decoration: ShapeDecoration(
-                      shadows: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.8),
-                          spreadRadius: 2,
-                          blurRadius: 5,
-                          offset: Offset(0, 1),
-                        ),
-                      ],
-                      color: ColorName.loginFormBackground,
-                      shape: PolygonBorder(
-                        rotate: 90,
-                        borderRadius: 12,
-                        sides: 6,
-                        side: BorderSide.none,
-                      ),
                     ),
                   ),
                 ),
@@ -165,7 +164,6 @@ class EditNameStater extends State<EditNamePage> {
                   child: Padding(
                     padding: EdgeInsets.only(bottom: formSize - 30),
                     child: Container(
-                      child: Icon(Icons.verified_user),
                       width: 90,
                       height: 90,
                       decoration: ShapeDecoration(
@@ -174,17 +172,18 @@ class EditNameStater extends State<EditNamePage> {
                             color: Colors.grey.withOpacity(0.2),
                             spreadRadius: 5,
                             blurRadius: 7,
-                            offset: Offset(0, 3),
+                            offset: const Offset(0, 3),
                           ),
                         ],
                         color: ColorName.topItemLoginFormBackground,
-                        shape: PolygonBorder(
+                        shape: const PolygonBorder(
                           rotate: 90,
                           borderRadius: 12,
                           sides: 6,
-                          side: BorderSide(color: Colors.white70, width: 3.0),
+                          side: const BorderSide(color: Colors.white70, width: 3.0),
                         ),
                       ),
+                      child: const Icon(Icons.verified_user),
                     ),
                   ),
                 ),
@@ -207,7 +206,7 @@ class EditNameStater extends State<EditNamePage> {
       context.sendImJoined(createAccount, userNameEditingController.text,
           passwordEditingController.text);
     } else {
-      Get.showSnackbar(GetSnackBar(
+      Get.showSnackbar(const GetSnackBar(
         message: "do all fields fill",
       ));
     }
