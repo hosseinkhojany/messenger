@@ -10,6 +10,8 @@ dependencies:
   flutter:
     sdk: flutter
 
+  mockito: ^5.2.0
+
   socket_io_client: ^2.0.0-beta.2
   animations: ^2.0.2
   get: ^4.6.1
@@ -39,10 +41,13 @@ dependencies:
 #  flutter_neumorphic: ^3.2.0
 
 dev_dependencies:
+  integration_test:
+    sdk: flutter
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.1
   flutter_gen: ^4.1.6
+  http_mock_adapter: ^0.3.2
 
 
 
