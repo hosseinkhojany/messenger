@@ -1,4 +1,5 @@
-import 'package:telegram_flutter/gen/assets.gen.dart';
+
+import '../../../common/gen/assets.gen.dart';
 
 class PageViewData {
   final String title;

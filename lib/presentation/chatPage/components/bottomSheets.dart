@@ -4,11 +4,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-import 'package:telegram_flutter/core/controller/emoji_controller.dart';
-import 'package:telegram_flutter/core/utils/ext.dart';
+import 'package:telegram_flutter/common/utils/ext.dart';
 import 'package:telegram_flutter/presentation/chatPage/components/dialogs.dart';
 import 'package:telegram_flutter/presentation/globalWidgets/improvedScrolling/lazy_load_scrollview.dart';
 import 'package:telegram_flutter/presentation/globalWidgets/improvedScrolling/responsiveGridList/responsive_grid_list.dart';
+
+import '../../../domain/controller/emoji_controller.dart';
 
 class ChatPageBottomSheets {
   void showLottiePicker(

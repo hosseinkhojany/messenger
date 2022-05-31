@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:telegram_flutter/gen/colors.gen.dart';
 import 'package:telegram_flutter/presentation/globalWidgets/icon_shadow.dart';
+
+import '../../../common/gen/colors.gen.dart';
 
 
 class CustomTabBar extends StatefulWidget {

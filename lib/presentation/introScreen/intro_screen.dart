@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:telegram_flutter/app/router.dart';
-import 'package:telegram_flutter/core/data/datasources/local/sharedStore.dart';
-import 'package:telegram_flutter/gen/colors.gen.dart';
+import 'package:telegram_flutter/common/router.dart';
+import 'package:telegram_flutter/data/datasources/local/sharedStore.dart';
 import 'package:telegram_flutter/presentation/introScreen/components/page_view_indictator.dart';
 import 'package:telegram_flutter/presentation/introScreen/components/page_view_model.dart';
 import 'package:telegram_flutter/presentation/introScreen/data/page_view_data.dart';
+
+import '../../common/gen/colors.gen.dart';
 
 int page = 0;
 
@@ -88,9 +88,9 @@ class _IntroScreenState extends State<IntroScreen> {
   }
   String routeChooser(){
     if(SharedStore.getUserName().isNotEmpty){
-      return CHAT_PAGE;
+      return chatPageRoute;
     }else{
-      return EDIT_NAME_PAGE;
+      return loginRoute;
     }
   }
 }

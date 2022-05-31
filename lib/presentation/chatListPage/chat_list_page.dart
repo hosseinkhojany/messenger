@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:telegram_flutter/core/data/models/chat.dart';
-import 'package:telegram_flutter/gen/colors.gen.dart';
+import 'package:telegram_flutter/common/utils/ext.dart';
 import 'package:telegram_flutter/presentation/chatListPage/components/tabbar.dart';
 
-import '../../core/utils/ext.dart';
+import '../../common/gen/colors.gen.dart';
+import '../../data/models/chat.dart';
 import '../globalWidgets/improvedScrolling/MMB_scroll_cursor_activity.dart';
 import '../globalWidgets/improvedScrolling/config.dart';
 import '../globalWidgets/improvedScrolling/custom_behavior.dart';

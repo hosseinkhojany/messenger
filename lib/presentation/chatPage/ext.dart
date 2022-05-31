@@ -2,27 +2,26 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../core/data/models/message.dart';
-import '../sharedBloc/socket/socket_bloc.dart';
+import '../../data/models/message.dart';
+import '../../domain/chat/chat_bloc.dart';
+import '../../domain/socket/socket_bloc.dart';
 
 extension BlocExt on BuildContext{
+  //SocketBloc-------------------------
   sendImTypingEvent(){
-    read<SocketBloc>().add(TypingEvent());
+    read<SocketBloc>().add(SocketTypingEvent());
   }
   sendImTypingStopEvent(){
-    read<SocketBloc>().add(TypingStopEvent());
+    read<SocketBloc>().add(SocketTypingStopEvent());
   }
   sendImLeft(){
-    read<SocketBloc>().add(UserLeftEvent());
+    read<SocketBloc>().add(SocketUserLeftEvent());
   }
   sendImJoin(String username){
-    read<SocketBloc>().add(UserJoinedEvent(username));
+    read<SocketBloc>().add(SocketUserJoinedEvent(username));
   }
   sendMessage(String message, String messageType){
-    read<SocketBloc>().add(SendMessageEvent(message, messageType));
-  }
-  getHistory(){
-    read<SocketBloc>().add(GetHistoryEvent());
+    read<SocketBloc>().add(SocketSendMessageEvent(message, messageType));
   }
   getTypingUsersList(){
     return read<SocketBloc>().typingUser;
@@ -30,7 +29,14 @@ extension BlocExt on BuildContext{
   getTypingUsers(){
     return read<SocketBloc>().typingUsers();
   }
-  List<MessageModel> getMessages(){
-    return read<SocketBloc>().messages;
+  //ChatBloc--------------------------------
+  getHistory(){
+    read<ChatBloc>().add(ChatGetHistoryEvent());
+  }
+  List<BaseMessageModel> getMessages(){
+    return read<ChatBloc>().messages();
+  }
+  sendImage(String base64Image){
+    read<ChatBloc>().add(ChatImageUploadEvent(base64Image));
   }
 }

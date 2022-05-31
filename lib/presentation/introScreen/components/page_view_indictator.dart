@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:telegram_flutter/app/router.dart';
-import 'package:telegram_flutter/core/data/datasources/local/sharedStore.dart';
+import 'package:telegram_flutter/data/datasources/local/sharedStore.dart';
+import 'package:telegram_flutter/presentation/globalWidgets/pageIndicator/smooth_page_indicator.dart';
+import 'package:telegram_flutter/common/router.dart';
 import 'package:telegram_flutter/presentation/introScreen/intro_screen.dart';
+
+import '../../globalWidgets/pageIndicator/effects/jumping_dot_effect.dart';
 
 class PageViewIndictator extends StatelessWidget {
   final int count;
@@ -40,8 +42,8 @@ class PageViewIndictator extends StatelessWidget {
               Navigator.pushReplacementNamed(
                   context,
                   SharedStore.getString(userName).isNotEmpty
-                      ? CHAT_PAGE
-                      : EDIT_NAME_PAGE);
+                      ? chatPageRoute
+                      : loginRoute);
             } else {
               pageController.animateToPage(page + 1,
                   duration: const Duration(milliseconds: 500),
