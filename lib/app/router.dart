@@ -2,10 +2,11 @@ import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:telegram_flutter/presentation/editNamePage/edit_name_page.dart';
 import 'package:telegram_flutter/presentation/unitHorizontalScreen/horizontal_merged_chatlist_chatpage_screen.dart';
-
+import 'package:telegram_flutter/presentation/userProfile/user_profile_screen.dart';
 
 const String EDIT_NAME_PAGE = "/editName";
 const String CHAT_PAGE = "/chat";
+const String USER_PROFILE = '/profile';
 
 class AppRouter {
   static SharedAxisTransition globalTransaction(
@@ -22,7 +23,7 @@ class AppRouter {
   Route generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case EDIT_NAME_PAGE:
-      // return PageTransition(child: SplashScreen(), type: PUSH_ANIMATION);
+        // return PageTransition(child: SplashScreen(), type: PUSH_ANIMATION);
         return PageRouteBuilder(
           pageBuilder: (context, animation, secondaryAnimation) {
             return const EditNamePage();
@@ -33,10 +34,21 @@ class AppRouter {
           },
         );
       case CHAT_PAGE:
-      // return PageTransition(child: SignUpScreen(), type: PUSH_ANIMATION);
+        // return PageTransition(child: SignUpScreen(), type: PUSH_ANIMATION);
         return PageRouteBuilder(
           pageBuilder: (context, animation, secondaryAnimation) {
-            return MergedChatListChatPageScreen();
+            return const MergedChatListChatPageScreen();
+          },
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return globalTransaction(
+                context, animation, secondaryAnimation, child);
+          },
+        );
+      case USER_PROFILE:
+        // return PageTransition(child: SplashScreen(), type: PUSH_ANIMATION);
+        return PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) {
+            return const UserProfileScreen();
           },
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return globalTransaction(

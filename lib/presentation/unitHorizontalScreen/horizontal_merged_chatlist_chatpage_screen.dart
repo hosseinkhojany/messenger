@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:telegram_flutter/core/utils/ext.dart';
@@ -5,11 +7,12 @@ import 'package:telegram_flutter/gen/colors.gen.dart';
 import 'package:telegram_flutter/presentation/chatListPage/chat_list_page.dart';
 import 'package:telegram_flutter/presentation/chatPage/chat_page.dart';
 
+import '../../app/router.dart';
 import '../globalWidgets/advanceDrawerMenu/src/controller.dart';
 import '../globalWidgets/advanceDrawerMenu/src/widget.dart';
 
 class MergedChatListChatPageScreen extends StatefulWidget {
-  MergedChatListChatPageScreen({Key? key}) : super(key: key);
+  const MergedChatListChatPageScreen({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -61,26 +64,30 @@ class MergedChatListChatPageScreenState
                     shape: BoxShape.circle,
                   ),
                   child: GestureDetector(
+                    onTap: () {
+                      log('going to route {USER_PROFILE}');
+                      Navigator.pushNamed(context, USER_PROFILE);
+                    },
                     child: Image.asset(
                       'assets/images/b.png',
                     ),
                   ),
                 ),
-                ListTile(
-                  leading: const Icon(Icons.account_circle_rounded),
+                const ListTile(
+                  leading: Icon(Icons.account_circle_rounded),
                   title: Text("Accounts"),
                 ),
-                ListTile(
-                  leading: const Icon(Icons.home),
+                const ListTile(
+                  leading: Icon(Icons.home),
                   title: Text("Contacts"),
                 ),
-                ListTile(
-                  leading: const Icon(Icons.home),
+                const ListTile(
+                  leading: Icon(Icons.home),
                   title: Text("Settings"),
                 ),
                 const Spacer(),
                 DefaultTextStyle(
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 12,
                     color: Colors.white54,
                   ),
@@ -88,7 +95,7 @@ class MergedChatListChatPageScreenState
                     margin: const EdgeInsets.symmetric(
                       vertical: 16.0,
                     ),
-                    child: Text('Terms of Service | Privacy Policy'),
+                    child: const Text('Terms of Service | Privacy Policy'),
                   ),
                 ),
               ],
@@ -111,7 +118,7 @@ class MergedChatListChatPageScreenState
         );
       } else {
         //open fullscreen chat list page
-        widget = ChatPage();
+        widget = const ChatPage();
       }
     } else {
       widget = Row(children: [
@@ -120,7 +127,7 @@ class MergedChatListChatPageScreenState
             _advancedDrawerController.showDrawer();
           },
         )),
-        Expanded(child: ChatPage())
+        const Expanded(child: ChatPage())
       ]);
     }
     return widget;
