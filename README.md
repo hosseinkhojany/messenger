@@ -49,18 +49,23 @@ Deployment is not currently in use.
 
 ## 💎 Dependencies
 
-- [Flutter](https://flutter.dev)
-- [firebase_auth: ^3.3.7](https://pub.dev/packages/firebase_auth)
-- [firebase_core: ^1.12.0](https://pub.dev/packages/firebase_core)
-- [cloud_firestore: ^3.1.8](https://pub.dev/packages/cloud_firestore)
-- [firebase_analytics: ^9.1.0](https://pub.dev/packages/firebase_analytics)
-- [firebase_messaging: ^11.2.6](https://pub.dev/packages/firebase_messaging)
-- [firebase_crashlytics: ^2.5.1](https://pub.dev/packages/firebase_crashlytics)
-- [intl: ^0.17.0](https://pub.dev/packages/intl)
-- [flutter_local_notifications: ^9.3.2](https://pub.dev/packages/flutter_local_notifications)
-- [payhere_mobilesdk_flutter: ^2.0.0](https://pub.dev/packages/payhere_mobilesdk_flutter)
-- [flutter_native_splash](https://pub.dev/packages/flutter_native_splash)
-- [crypto: ^3.0.1](https://pub.dev/packages/crypto)
+  - socket_io_client: ^2.0.0-beta.2
+  - animations: ^2.0.2
+  - get: ^4.6.1
+  - dio: ^4.0.4
+  - http_interceptor: ^1.0.2
+  - flutter_bloc: ^8.0.1
+  - build_runner: ^2.1.9
+  - flutter_gen_runner: ^4.1.6
+  - shared_preferences: ^2.0.15
+  - flutter_sticky_header: ^0.6.2
+  - lottie: ^1.3.0
+  - http: ^0.13.4 # used to load sqlite3 wasm files on the web
+  - sqlite3_flutter_libs: ^0.5.5
+  - sqlite3: ^1.7.0
+  - image_compression_flutter: ^1.0.2
+  - image: ^3.0.2
+  - flimer: ^1.0.1
 
 
 ## 👑 Contributing
