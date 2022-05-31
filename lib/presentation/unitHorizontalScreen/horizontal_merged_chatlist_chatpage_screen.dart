@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:telegram_flutter/core/utils/ext.dart';
-import 'package:telegram_flutter/gen/assets.gen.dart';
-import 'package:telegram_flutter/gen/colors.gen.dart';
+import 'package:telegram_flutter/common/utils/ext.dart';
 import 'package:telegram_flutter/presentation/chatListPage/chat_list_page.dart';
 import 'package:telegram_flutter/presentation/chatPage/chat_page.dart';
 
+import '../../common/gen/assets.gen.dart';
+import '../../common/gen/colors.gen.dart';
 import '../globalWidgets/advanceDrawerMenu/src/controller.dart';
 import '../globalWidgets/advanceDrawerMenu/src/widget.dart';
 

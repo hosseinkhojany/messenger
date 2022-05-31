@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:get/get.dart';
-import 'package:telegram_flutter/app/getx_binding.dart';
-import 'package:telegram_flutter/app/router.dart';
-import 'package:telegram_flutter/presentation/editNamePage/edit_name_page.dart';
+import 'package:telegram_flutter/common/getx_binding.dart';
+import 'package:telegram_flutter/common/router.dart';
+import 'package:telegram_flutter/presentation/loginPage/login_page.dart';
 import 'package:telegram_flutter/presentation/introScreen/intro_screen.dart';
 import 'package:telegram_flutter/presentation/unitHorizontalScreen/horizontal_merged_chatlist_chatpage_screen.dart';
-import 'app/bloc_binding.dart';
-import 'app/bloc_observer.dart';
-import 'core/data/datasources/local/sharedStore.dart';
+import 'common/bloc_binding.dart';
+import 'common/bloc_observer.dart';
+import 'data/datasources/local/sharedStore.dart';
 
 void main() async {
   await SharedStore.init();
@@ -35,9 +34,9 @@ class MyApp extends StatelessWidget {
       // initialRoute: introPage,
       initialRoute: getInitialRoute(),
       routes: {
-        EDIT_NAME_PAGE: (context) => const EditNamePage(),
-        CHAT_PAGE: (context) => MergedChatListChatPageScreen(),
-        introPage: (context) => const IntroScreen()
+        introRoute: (context) => const IntroScreen(),
+        loginRoute: (context) => const LoginPage(),
+        chatPageRoute: (context) => MergedChatListChatPageScreen(),
       },
       onGenerateRoute: AppRouter().generateRoute,
     );
@@ -45,9 +44,9 @@ class MyApp extends StatelessWidget {
 
   String getInitialRoute() {
     return !SharedStore.isFirstRun()
-        ? introPage
+        ? introRoute
         : SharedStore.getUserName().isNotEmpty
-            ? CHAT_PAGE
-            : EDIT_NAME_PAGE;
+            ? chatPageRoute
+            : loginRoute;
   }
 }

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:telegram_flutter/core/data/models/chat.dart';
-import 'package:telegram_flutter/gen/assets.gen.dart';
-import 'package:telegram_flutter/gen/colors.gen.dart';
+
+import '../../../common/gen/assets.gen.dart';
+import '../../../common/gen/colors.gen.dart';
+import '../../../data/models/chat.dart';
 
 class ChatItem extends StatelessWidget {
   final ChatModel chatModel;

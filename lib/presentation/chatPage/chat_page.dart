@@ -1,21 +1,25 @@
+import 'dart:convert';
+
+import 'package:flimer/flimer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
-import 'package:telegram_flutter/core/data/datasources/local/sharedStore.dart';
-import 'package:telegram_flutter/core/utils/consts.dart';
-import 'package:telegram_flutter/core/utils/ext.dart';
-import 'package:telegram_flutter/gen/colors.gen.dart';
+import 'package:image_compression_flutter/image_compression_flutter.dart';
+import 'package:telegram_flutter/common/utils/ext.dart';
 import 'package:telegram_flutter/presentation/chatPage/ext.dart';
 import 'package:telegram_flutter/presentation/chatPage/components/message_widget.dart';
 import 'package:telegram_flutter/presentation/globalWidgets/improvedScrolling/lazy_load_scrollview.dart';
 
+import '../../common/gen/colors.gen.dart';
+import '../../common/utils/consts.dart';
+import '../../domain/chat/chat_bloc.dart';
+import '../../domain/socket/socket_bloc.dart';
 import 'components/bottomSheets.dart';
 import '../globalWidgets/improvedScrolling/MMB_scroll_cursor_activity.dart';
 import '../globalWidgets/improvedScrolling/config.dart';
 import '../globalWidgets/improvedScrolling/custom_behavior.dart';
 import '../globalWidgets/improvedScrolling/custom_scroll_cursor.dart';
-import '../sharedBloc/socket/socket_bloc.dart';
 
 class ChatPage extends StatefulWidget {
   const ChatPage({Key? key}) : super(key: key);
@@ -25,9 +29,14 @@ class ChatPage extends StatefulWidget {
 }
 
 class ChatPageStater extends State<ChatPage> {
-  TextEditingController textEditingController = TextEditingController();
 
+  TextEditingController textEditingController = TextEditingController();
   ScrollController scrollControllerVertical = ScrollController();
+
+  Configuration config = const Configuration();
+  ImageFile? image;
+  ImageFile? imageOutput;
+  bool processing = false;
 
   @override
   void dispose() {
@@ -38,26 +47,28 @@ class ChatPageStater extends State<ChatPage> {
 
   @override
   Widget build(BuildContext context) {
-    context.sendImJoin(SharedStore.getUserName());
     return Scaffold(
       appBar: AppBar(
-        shape: context.isHorizontalScreen() ? null : RoundedRectangleBorder(
-          side: BorderSide(
-            width: 0.5,
-            color: Colors.white10,
-          ),
-        ),
-        shadowColor: context.isHorizontalScreen() ?Colors.black : Colors.transparent,
+        shape: context.isHorizontalScreen()
+            ? null
+            : const RoundedRectangleBorder(
+                side: BorderSide(
+                  width: 0.5,
+                  color: Colors.white10,
+                ),
+              ),
+        shadowColor:
+            context.isHorizontalScreen() ? Colors.black : Colors.transparent,
         backgroundColor: ColorName.chatPageMainBackground,
         title: BlocBuilder<SocketBloc, SocketState>(
           builder: (context, state) {
             switch (state.runtimeType) {
               case SocketConnectedState:
-              case TypingState:
-              case TypingStopState:
+              case SocketTypingState:
+              case SocketTypingStopState:
               case SocketNewMessageState:
-              case UserJoinedState:
-              case UserLeftState:
+              case SocketUserJoinedState:
+              case SocketUserLeftState:
                 if (context.getTypingUsersList().isNotEmpty) {
                   return Text(context.getTypingUsers());
                 } else {
@@ -76,12 +87,26 @@ class ChatPageStater extends State<ChatPage> {
       body: RawKeyboardListener(
         focusNode: FocusNode(),
         child: Container(
+          decoration: BoxDecoration(
+            color: ColorName.chatPageMainBackground,
+            border: context.isHorizontalScreen()
+                ? null
+                : const Border.fromBorderSide(
+                    BorderSide(
+                      width: 0.3,
+                      color: Colors.white10,
+                    ),
+                  ),
+          ),
           child: Stack(
             children: [
               //chat list
               Padding(
                 padding: EdgeInsets.only(
-                    bottom: context.isHorizontalScreen() ? 60 : 100, right: 5, left: 5, top: 5),
+                    bottom: context.isHorizontalScreen() ? 60 : 100,
+                    right: 5,
+                    left: 5,
+                    top: 5),
                 child: BlocBuilder<SocketBloc, SocketState>(
                   builder: (context, state) {
                     return DefaultStickyHeaderController(
@@ -90,9 +115,9 @@ class ChatPageStater extends State<ChatPage> {
                         enableMMBScrolling: true,
                         enableKeyboardScrolling: true,
                         enableCustomMouseWheelScrolling: true,
-                        mmbScrollConfig: MMBScrollConfig(
+                        mmbScrollConfig: const MMBScrollConfig(
                             customScrollCursor: DefaultCustomScrollCursor(),
-                            autoScrollDelay: const Duration(milliseconds: 60)),
+                            autoScrollDelay: Duration(milliseconds: 60)),
                         keyboardScrollConfig: KeyboardScrollConfig(
                           homeScrollDurationBuilder:
                               (currentScrollOffset, minScrollOffset) {
@@ -108,20 +133,26 @@ class ChatPageStater extends State<ChatPage> {
                           scrollAmountMultiplier: 4.0,
                           scrollDuration: Duration(milliseconds: 350),
                         ),
-                        child: ScrollConfiguration(
-                          behavior: CustomScrollBehaviour(),
-                          child: LazyLoadScrollView(
-                            onEndOfPage: () => context.getHistory(),
-                            child: CustomScrollView(
-                              reverse: true,
-                              controller: scrollControllerVertical,
-                              slivers: context
-                                  .getMessages()
-                                  .map((e) => MessageWidget(
-                                  width: 300, height: 60, message: e))
-                                  .toList(),
-                            ),
-                          ),
+                        child: BlocBuilder<ChatBloc, ChatState>(
+                          builder: (context, state) {
+                            if(state is Initial){
+                              context.getHistory();
+                            }
+                            return ScrollConfiguration(
+                              behavior: CustomScrollBehaviour(),
+                              child: LazyLoadScrollView(
+                                onEndOfPage: () => context.getHistory(),
+                                child: CustomScrollView(
+                                  reverse: true,
+                                  controller: scrollControllerVertical,
+                                  slivers: context
+                                      .getMessages()
+                                      .map((e) => MessageWidget(
+                                          width: 300, height: 60, message: e)).toList(),
+                                ),
+                              ),
+                            );
+                          },
                         ),
                       ),
                     );
@@ -130,135 +161,136 @@ class ChatPageStater extends State<ChatPage> {
               ),
               //bottom bar
               Align(
-                  alignment: Alignment.bottomCenter,
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  padding:
+                      EdgeInsets.all(context.isHorizontalScreen() ? 10 : 25),
+                  decoration: context.isHorizontalScreen()
+                      ? null
+                      : const BoxDecoration(
+                          border: Border.fromBorderSide(
+                            BorderSide(
+                              width: 0.3,
+                              color: Colors.white10,
+                            ),
+                          ),
+                        ),
                   child: Container(
-                    padding: EdgeInsets.all(context.isHorizontalScreen() ? 10 : 25),
-                    child: Container(
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left: 10),
-                              child: GestureDetector(
-                                      child: Icon(Icons.emoji_emotions_rounded,
-                                          color: Colors.white),
-                                      onTap: (){
-                                        ChatPageBottomSheets().showLottiePicker(context, (emoji) {
-                                          context.sendMessage(emoji, MESSAGE_TYPE.lottie.name);
-                                        });
-                                      },
-                                    )
-                            ),
-                            Expanded(
-                              child: Padding(
-                                padding:
-                                EdgeInsets.only(left: 20, right: 20),
-                                child: TextField(
-                                  autofocus: true,
-                                  focusNode: FocusNode(
-                                    onKey: (FocusNode node, RawKeyEvent evt) {
-                                      if (evt.isShiftPressed &&
-                                          evt.logicalKey ==
-                                              LogicalKeyboardKey.enter) {
-                                        if (evt is RawKeyUpEvent) {
-                                          var cursorPos = textEditingController
-                                              .selection.base.offset;
+                    decoration: BoxDecoration(
+                      boxShadow: context.isHorizontalScreen()
+                          ? [
+                              const BoxShadow(
+                                  offset: Offset(0, 0.3),
+                                  color: Colors.black,
+                                  blurRadius: 3,
+                                  blurStyle: BlurStyle.solid)
+                            ]
+                          : null,
+                      borderRadius: BorderRadius.circular(100),
+                      shape: BoxShape.rectangle,
+                      color: ColorName.defaultChatItemBackground,
+                    ),
+                    width: double.infinity,
+                    child: Row(
+                      children: [
+                        Padding(
+                            padding: const EdgeInsets.only(left: 10),
+                            child: GestureDetector(
+                              child: const Icon(Icons.emoji_emotions_rounded,
+                                  color: Colors.white),
+                              onTap: () {
+                                ChatPageBottomSheets().showLottiePicker(context,
+                                    (emoji) {
+                                  context.sendMessage(
+                                      emoji, MESSAGE_TYPE.lottie.name);
+                                });
+                              },
+                            )),
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 20, right: 20),
+                            child: TextField(
+                              autofocus: true,
+                              focusNode: FocusNode(
+                                onKey: (FocusNode node, RawKeyEvent evt) {
+                                  if (evt.isShiftPressed &&
+                                      evt.logicalKey ==
+                                          LogicalKeyboardKey.enter) {
+                                    if (evt is RawKeyUpEvent) {
+                                      var cursorPos = textEditingController
+                                          .selection.base.offset;
 
-                                          String suffixText =
-                                          textEditingController.text
-                                              .substring(cursorPos);
+                                      String suffixText = textEditingController
+                                          .text
+                                          .substring(cursorPos);
 
-                                          String specialChars = '\n';
-                                          int length = specialChars.length;
+                                      String specialChars = '\n';
+                                      int length = specialChars.length;
 
-                                          String prefixText =
-                                          textEditingController.text
-                                              .substring(0, cursorPos);
+                                      String prefixText = textEditingController
+                                          .text
+                                          .substring(0, cursorPos);
 
-                                          textEditingController.text =
-                                              prefixText +
-                                                  specialChars +
-                                                  suffixText;
+                                      textEditingController.text = prefixText +
+                                          specialChars +
+                                          suffixText;
 
-                                          textEditingController.selection =
-                                              TextSelection(
-                                                baseOffset: cursorPos + length,
-                                                extentOffset: cursorPos + length,
-                                              );
-                                        }
-                                        return KeyEventResult.handled;
-                                      } else {
-                                        return KeyEventResult.ignored;
-                                      }
-                                    },
-                                  ),
-                                  style: TextStyle(color: Colors.white),
-                                  cursorColor: Colors.yellow,
-                                  onChanged: (str) => context.sendImTypingEvent(),
-                                  onEditingComplete: () {},
-                                  maxLines: null,
-                                  textInputAction: TextInputAction.next,
-                                  keyboardType: TextInputType.multiline,
-                                  controller: textEditingController,
-                                  decoration: const InputDecoration(
-                                    hintStyle: TextStyle(color: Colors.white60),
-                                    hintText: "Message",
-                                    border: InputBorder.none,
-                                  ),
-                                ),
+                                      textEditingController.selection =
+                                          TextSelection(
+                                        baseOffset: cursorPos + length,
+                                        extentOffset: cursorPos + length,
+                                      );
+                                    }
+                                    return KeyEventResult.handled;
+                                  } else {
+                                    return KeyEventResult.ignored;
+                                  }
+                                },
+                              ),
+                              style: const TextStyle(color: Colors.white),
+                              cursorColor: Colors.yellow,
+                              onChanged: (str) => context.sendImTypingEvent(),
+                              onEditingComplete: () {},
+                              maxLines: null,
+                              textInputAction: TextInputAction.next,
+                              keyboardType: TextInputType.multiline,
+                              controller: textEditingController,
+                              decoration: const InputDecoration(
+                                hintStyle: TextStyle(color: Colors.white60),
+                                hintText: "Message",
+                                border: InputBorder.none,
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(right: 10),
-                              child: GestureDetector(
-                                child: Icon(Icons.mic_none_rounded,
-                                    color: Colors.white),
-                                onTap: () => sendMessage(),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(right: 10),
-                              child: GestureDetector(
-                                child:
-                                const Icon(Icons.send, color: Colors.white),
-                                onTap: () => sendMessage(),
-                              ),
-                            ),
-                          ],
+                          ),
                         ),
-                        decoration: BoxDecoration(
-                          boxShadow: context.isHorizontalScreen() ? [
-                            BoxShadow(
-                                offset: Offset(0, 0.3),
-                                color: Colors.black,
-                                blurRadius: 3,
-                                blurStyle: BlurStyle.solid)
-                          ] : null,
-                          borderRadius: BorderRadius.circular(100),
-                          shape: BoxShape.rectangle,
-                          color: ColorName.defaultChatItemBackground,
+                        Padding(
+                          padding: const EdgeInsets.only(right: 10),
+                          child: GestureDetector(
+                            onTap: () => handleSendImage(),
+                            child: const Icon(Icons.image_outlined,
+                                color: Colors.white),
+                          ),
                         ),
-                        width: double.infinity,
-                      ),
-                    decoration: context.isHorizontalScreen() ? null : BoxDecoration(
-                      border: Border.fromBorderSide(
-                        BorderSide(
-                          width: 0.3,
-                          color: Colors.white10,
+                        Padding(
+                          padding: const EdgeInsets.only(right: 10),
+                          child: GestureDetector(
+                            child: const Icon(Icons.mic_none_rounded,
+                                color: Colors.white),
+                          ),
                         ),
-                      ),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 10),
+                          child: GestureDetector(
+                            child: const Icon(Icons.send, color: Colors.white),
+                            onTap: () => sendMessage(),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
-            ],
-          ),
-          decoration: BoxDecoration(
-            color: ColorName.chatPageMainBackground,
-            border: context.isHorizontalScreen()? null : Border.fromBorderSide(
-              BorderSide(
-                width: 0.3,
-                color: Colors.white10,
               ),
-            ),
+            ],
           ),
         ),
         onKey: (event) {
@@ -275,13 +307,38 @@ class ChatPageStater extends State<ChatPage> {
   sendMessage() {
     if (textEditingController.text.toString().isNotEmpty) {
       context.sendImTypingStopEvent();
-      context.sendMessage(textEditingController.text.toString(), MESSAGE_TYPE.text.name);
+      context.sendMessage(
+          textEditingController.text.toString(), MESSAGE_TYPE.text.name);
       scrollControllerVertical.animateTo(
         scrollControllerVertical.position.minScrollExtent,
-        duration: Duration(seconds: 1),
+        duration: const Duration(seconds: 1),
         curve: Curves.fastOutSlowIn,
       );
       textEditingController.clear();
     }
   }
+
+  handleSendImage() async {
+    final xFile = await flimer.pickImage(source: ImageSource.gallery);
+    if (xFile != null) {
+      final image = await xFile.asImageFile;
+
+      setState(() {
+        processing = true;
+      });
+
+        config = Configuration(
+          outputType: config.outputType,
+          useJpgPngNativeCompressor: context.isMobile(),
+          quality: 50,
+        );
+
+      final param = ImageFileConfiguration(input: image, config: config);
+      final output = await compressor.compress(param);
+      print(base64Encode(output.rawBytes));
+      context.sendImage(base64Encode(output.rawBytes));
+
+    }
+  }
+
 }
