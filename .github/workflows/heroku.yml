@@ -1,0 +1,25 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build web app
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+        run: |
+          flutter pub get
+          flutter build web
+      - uses: akhileshns/heroku-deploy@v3.12.12 
+        with:
+          heroku_api_key: ${{secrets.HEROKUDEPLOYER}}
+          heroku_app_name: "flutterchatting" 
+          heroku_email: "hosseinkhojany1380@gmail.com"
+          appdir: "build/web"
