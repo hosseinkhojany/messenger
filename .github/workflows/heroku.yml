@@ -17,9 +17,19 @@ jobs:
         run: |
           flutter pub get
           flutter build web
-      - uses: akhileshns/heroku-deploy@v3.12.12 
+      - name: Deploy to Heroku
+        uses: akhileshns/heroku-deploy@v3.12.12 
         with:
           heroku_api_key: ${{secrets.HEROKUDEPLOYER}}
           heroku_app_name: "flutterchatting" 
           heroku_email: "hosseinkhojany1380@gmail.com"
           appdir: "build/web"
+      - name: Send Telegram Message
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TG_TO }}
+          token: ${{ secrets.TG_TOKEN }}
+          format: "markdown"
+          message: |
+            *New Version of Messenger deployed to Heroku!*
+            [View the app](https://flutterchatting.herokuapp.com/)
