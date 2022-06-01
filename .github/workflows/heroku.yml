@@ -10,10 +10,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Build web app
+      - name: Add Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
+      - name: Build flutter web
         run: |
           flutter pub get
           flutter build web
