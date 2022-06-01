@@ -5,11 +5,18 @@ on:
     branches:
       - master
 
+env:
+  HEROKU_API_KEY: ${{ secrets.HEROKUDEPLOYER }}
+  HEROKU_EMAIL: "hosseinkhojany1380@gmail.com"
+  HEROKU_APP_NAME: "flutterchatting"
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Check out repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
       - name: Add Flutter
         uses: subosito/flutter-action@v2
         with:
@@ -18,13 +25,32 @@ jobs:
         run: |
           flutter pub get
           flutter build web
-      - name: Deploy to Heroku
-        uses: akhileshns/heroku-deploy@v3.12.12 
-        with:
-          heroku_api_key: ${{secrets.HEROKUDEPLOYER}}
-          heroku_app_name: "flutterchatting" 
-          heroku_email: "hosseinkhojany1380@gmail.com"
-          appdir: "build/web"
+      - name: Change directory
+        run: |
+          cd build/web
+      - name: Commit to git
+        run: |
+          git config --global user.email "hosseinkhojany1380@gmail.com"
+          git config --global user.name "Hossein Khojany"
+          git init
+          git add .
+          git commit -m "Deploy"
+      - name: Heroku login credentials
+        run: |
+          cat > ~/.netrc <<EOF
+            machine api.heroku.com
+              login $HEROKU_EMAIL
+              password $HEROKU_API_KEY
+            machine git.heroku.com
+              login $HEROKU_EMAIL
+              password $HEROKU_API_KEY
+          EOF
+      - name: Add Heroku remote
+        run: heroku git:remote --app $HEROKU_APP_NAME
+
+      - name: Push to Heroku
+        run: git push heroku master
+
       - name: Send Telegram Message
         uses: appleboy/telegram-action@master
         with:
@@ -33,4 +59,5 @@ jobs:
           format: "markdown"
           message: |
             *New Version of Messenger deployed to Heroku!*
+
             [View the app](https://flutterchatting.herokuapp.com/)
