@@ -6,7 +6,7 @@ on:
       - master
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -25,6 +25,7 @@ jobs:
           heroku_app_name: "flutterchatting" 
           heroku_email: "hosseinkhojany1380@gmail.com"
           appdir: "build/web"
+          branch: "master"
       - name: Send Telegram Message
         uses: appleboy/telegram-action@master
         with:
