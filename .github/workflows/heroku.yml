@@ -18,14 +18,27 @@ jobs:
         run: |
           flutter pub get
           flutter build web
-      - name: Deploy to Heroku
-        uses: akhileshns/heroku-deploy@v3.12.12 
-        with:
-          heroku_api_key: ${{secrets.HEROKUDEPLOYER}}
-          heroku_app_name: "flutterchatting" 
-          heroku_email: "hosseinkhojany1380@gmail.com"
-          appdir: "build/web"
-          branch: "feat/github-action"
+      - name: Heroku login credentials
+        run: |
+          cat > ~/.netrc <<EOF
+            machine api.heroku.com
+              login $HEROKU_EMAIL
+              password $HEROKU_API_KEY
+            machine git.heroku.com
+              login $HEROKU_EMAIL
+              password $HEROKU_API_KEY
+          EOF
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKUDEPLOYER }}
+          HEROKU_EMAIL: "hosseinkhojany1380@gmail.com"
+      - name: Add Heroku remote
+        run: heroku git:remote --app $HEROKU_APP_NAME
+        env:
+          HEROKU_APP_NAME: "flutterchatting"
+
+      - name: Push to Heroku
+        run: git push heroku master
+
       - name: Send Telegram Message
         uses: appleboy/telegram-action@master
         with:
