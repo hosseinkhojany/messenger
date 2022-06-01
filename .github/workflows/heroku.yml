@@ -31,11 +31,13 @@ jobs:
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKUDEPLOYER }}
           HEROKU_EMAIL: "hosseinkhojany1380@gmail.com"
+      
       - name: Add Heroku remote
         run: heroku git:remote --app $HEROKU_APP_NAME
         env:
           HEROKU_APP_NAME: "flutterchatting"
-
+      - name: Pull git
+        run: git pull
       - name: Push to Heroku
         run: git push heroku master
 
