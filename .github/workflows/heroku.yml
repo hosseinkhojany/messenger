@@ -25,7 +25,7 @@ jobs:
           heroku_app_name: "flutterchatting" 
           heroku_email: "hosseinkhojany1380@gmail.com"
           appdir: "build/web"
-          branch: "master"
+          branch: "feat/github-action"
       - name: Send Telegram Message
         uses: appleboy/telegram-action@master
         with:
