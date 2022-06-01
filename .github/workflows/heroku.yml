@@ -35,7 +35,7 @@ jobs:
           echo "<?php include_once(\"index.html\");" >> index.php
           echo "web: vendor/bin/heroku-php-apache2 /web" >> Procfile
 
-      - name: Commit required file to git
+      - name: Commit to git
         run: |
           git config --global user.email "hosseinkhojany1380@gmail.com"
           git config --global user.name "Hossein Khojany"
