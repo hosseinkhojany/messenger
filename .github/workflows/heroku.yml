@@ -1,4 +1,4 @@
-name: Deploy
+name: Deploy Web
 
 on:
   push:
@@ -10,7 +10,7 @@ env:
   HEROKU_EMAIL: "hosseinkhojany1380@gmail.com"
   HEROKU_APP_NAME: "flutterchatting"
 jobs:
-  deploy:
+  deploy-to-:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
@@ -25,16 +25,23 @@ jobs:
         run: |
           flutter pub get
           flutter build web
-      - name: Change directory
+      - name: Change directory to build
         run: |
-          cd build/web
-      - name: Commit to git
+          cd build
+
+      - name: add required file for heroku
+        run: |
+          echo "<php " >> index.html
+          echo "<?php include_once(\"index.html\");" >> index.php
+          echo "web: vendor/bin/heroku-php-apache2 /web" >> Procfile
+
+      - name: Commit required file to git
         run: |
           git config --global user.email "hosseinkhojany1380@gmail.com"
           git config --global user.name "Hossein Khojany"
           git init
           git add .
-          git commit -m "Deploy"
+          git commit -m "Deploy to heroku"
       - name: Heroku login credentials
         run: |
           cat > ~/.netrc <<EOF
@@ -45,8 +52,12 @@ jobs:
               login $HEROKU_EMAIL
               password $HEROKU_API_KEY
           EOF
+      
       - name: Add Heroku remote
         run: heroku git:remote --app $HEROKU_APP_NAME
+
+      - name: Add heroku build pack
+        run: heroku buildpacks:set heroku/php  
 
       - name: Push to Heroku
         run: git push heroku master
