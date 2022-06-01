@@ -21,6 +21,14 @@ jobs:
         run: |
           flutter pub get
           flutter build web
+      - name: Change directory
+        run: |
+          cd build/web
+      - name: Commit to git
+        run: |
+          git init
+          git add .
+          git commit -m "Deploy"
       - name: Heroku login credentials
         run: |
           cat > ~/.netrc <<EOF
