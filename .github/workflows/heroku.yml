@@ -3,8 +3,12 @@ name: Deploy
 on:
   push:
     branches:
-      - feat/github-action
+      - master
 
+env:
+  HEROKU_API_KEY: ${{ secrets.HEROKUDEPLOYER }}
+  HEROKU_EMAIL: "hosseinkhojany1380@gmail.com"
+  HEROKU_APP_NAME: "flutterchatting"
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -41,16 +45,11 @@ jobs:
               login $HEROKU_EMAIL
               password $HEROKU_API_KEY
           EOF
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKUDEPLOYER }}
-          HEROKU_EMAIL: "hosseinkhojany1380@gmail.com"
-      
       - name: Add Heroku remote
         run: heroku git:remote --app $HEROKU_APP_NAME
-        env:
-          HEROKU_APP_NAME: "flutterchatting"
+
       - name: Push to Heroku
-        run: git push heroku feat/github-action
+        run: git push heroku master
 
       - name: Send Telegram Message
         uses: appleboy/telegram-action@master
@@ -60,4 +59,5 @@ jobs:
           format: "markdown"
           message: |
             *New Version of Messenger deployed to Heroku!*
+
             [View the app](https://flutterchatting.herokuapp.com/)
