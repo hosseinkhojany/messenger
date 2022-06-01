@@ -50,7 +50,7 @@ jobs:
         env:
           HEROKU_APP_NAME: "flutterchatting"
       - name: Push to Heroku
-        run: git push heroku master
+        run: git push heroku feat/github-action
 
       - name: Send Telegram Message
         uses: appleboy/telegram-action@master
