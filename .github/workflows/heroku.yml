@@ -1,4 +1,4 @@
-name: Deploy
+name: Deploy To Heroku
 
 on:
   push:
@@ -47,7 +47,9 @@ jobs:
           EOF
       - name: Add Heroku remote
         run: heroku git:remote --app $HEROKU_APP_NAME
-
+      - name: Remove heroku build pack
+        run: heroku buildpacks:remove heroku/php
+        
       - name: Push to Heroku
         run: git push heroku master
 
