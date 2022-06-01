@@ -10,7 +10,7 @@ env:
   HEROKU_EMAIL: "hosseinkhojany1380@gmail.com"
   HEROKU_APP_NAME: "flutterchatting"
 jobs:
-  deploy-to-:
+  deploy-to-heroku:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
