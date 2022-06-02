@@ -191,9 +191,7 @@ class DrawerMenuItemsState extends State<DrawerMenuItems>
                         alignment: Alignment.center,
                         scale: _animation,
                         child: InkWell(
-                          onTap: () {
-                            debugPrint('onTap');
-                          },
+                          onTap: () => debugPrint('onTap'),
                           onHover: (value) {
                             showProfileEditCurrentHover = value;
                             if (value) {
@@ -283,6 +281,50 @@ class DrawerMenuItemsState extends State<DrawerMenuItems>
             const ListTile(
               leading: Icon(Icons.home),
               title: Text("Settings"),
+            ),
+            PopupMenuButton(
+              tooltip: "Edit Profile",
+              icon: const Icon(Icons.edit),
+              iconSize: 18.0,
+              onSelected: (value) {
+                debugPrint('$value');
+                _handleMenuItemSelect(value);
+              },
+              onCanceled: () => debugPrint('onCanceled'),
+              itemBuilder: (context) => [
+                const PopupMenuItem(
+                  value: 1,
+                  child: Text('Camera'),
+                  // Row(
+                  //     mainAxisAlignment:
+                  //     MainAxisAlignment.spaceBetween,
+                  //     children: const [
+                  //       Text('Camera'),
+                  //       Icon(Icons.camera_alt_rounded,
+                  //           size: 24)
+                  //     ]),
+                ),
+                PopupMenuItem(
+                    value: 2,
+                    child: Row(
+                        mainAxisAlignment:
+                        MainAxisAlignment.spaceBetween,
+                        children: const [
+                          Text('Files'),
+                          Icon(Icons.photo_library_rounded,
+                              size: 24)
+                        ])),
+                PopupMenuItem(
+                    value: 3,
+                    child: Row(
+                        mainAxisAlignment:
+                        MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text('Pokemons'),
+                          Assets.images.pokemonIcons
+                              .image(height: 24, width: 24)
+                        ])),
+              ],
             ),
             const Spacer(),
             DefaultTextStyle(
