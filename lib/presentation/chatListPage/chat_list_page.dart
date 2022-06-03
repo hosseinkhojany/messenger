@@ -24,7 +24,7 @@ class _ChatListPageState extends State<ChatListPage> {
   void dispose() {
     super.dispose();
   }
-
+// == ====
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -37,9 +37,9 @@ class _ChatListPageState extends State<ChatListPage> {
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Padding(
-                        padding: EdgeInsets.only(top: 25),
+                        padding: const EdgeInsets.only(top: 25),
                         child: IconButton(
-                          icon: Icon(
+                          icon: const Icon(
                             Icons.menu,
                             color: Colors.white,
                           ),
@@ -48,7 +48,7 @@ class _ChatListPageState extends State<ChatListPage> {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(
+                      padding: const EdgeInsets.only(
                           right: 10, top: 25, bottom: 25, left: 10),
                       child: CustomTabBar(
                         background: ColorName.tabBarBackground,
@@ -68,11 +68,15 @@ class _ChatListPageState extends State<ChatListPage> {
                         children: [
                           Expanded(
                             child: Padding(
-                              padding: EdgeInsets.only(
+                              padding: const EdgeInsets.only(
                                   right: 10, top: 20, bottom: 10, left: 25),
                               child: Container(
-                                padding: EdgeInsets.only(
+                                padding: const EdgeInsets.only(
                                     right: 10, left: 10, top: 3, bottom: 3),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(17),
+                                  color: ColorName.defaultChatItemBackground,
+                                ),
                                 child: Center(
                                   child: TextField(
                                     style: TextStyle(color: Colors.white),
@@ -85,32 +89,28 @@ class _ChatListPageState extends State<ChatListPage> {
                                     ),
                                   ),
                                 ),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(17),
-                                  color: ColorName.defaultChatItemBackground,
-                                ),
                               ),
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.only(top: 10, right: 25),
+                            padding: const EdgeInsets.only(top: 10, right: 25),
                             child: Container(
                               height: 50,
                               width: 50,
-                              child: Center(
-                                child: Icon(Icons.search, color: Colors.white),
-                              ),
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 color: ColorName.defaultChatItemBackground,
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(17),
                                 ),
                               ),
+                              child: Center(
+                                child: Icon(Icons.search, color: Colors.white),
+                              ),
                             ),
                           ),
                         ],
                       ),
-                      ListChats()
+                      const ListChats()
                     ],
                   ),
                 ),
@@ -123,9 +123,9 @@ class _ChatListPageState extends State<ChatListPage> {
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Padding(
-                        padding: EdgeInsets.only(left: 15),
+                        padding: const EdgeInsets.only(left: 15),
                         child: IconButton(
-                          icon: Icon(
+                          icon: const Icon(
                             Icons.menu,
                             color: Colors.white,
                           ),
@@ -134,7 +134,7 @@ class _ChatListPageState extends State<ChatListPage> {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(
+                      padding: const EdgeInsets.only(
                           right: 10, top: 20, bottom: 10, left: 25),
                       child: CustomTabBar(
                         background: ColorName.tabBarBackground,
@@ -144,24 +144,24 @@ class _ChatListPageState extends State<ChatListPage> {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(top: 10),
+                      padding: const EdgeInsets.only(top: 10),
                       child: Container(
                         height: 50,
                         width: 50,
-                        child: Center(
-                          child: Icon(Icons.search, color: Colors.white),
-                        ),
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           color: ColorName.defaultChatItemBackground,
                           borderRadius: BorderRadius.all(
                             Radius.circular(17),
                           ),
                         ),
+                        child: Center(
+                          child: Icon(Icons.search, color: Colors.white),
+                        ),
                       ),
                     ),
                   ],
                 ),
-                ListChats()
+                const ListChats()
               ],
             ),
     );
@@ -194,9 +194,9 @@ class _ListChatsState extends State<ListChats> {
         enableMMBScrolling: true,
         enableKeyboardScrolling: true,
         enableCustomMouseWheelScrolling: true,
-        mmbScrollConfig: MMBScrollConfig(
+        mmbScrollConfig: const MMBScrollConfig(
             customScrollCursor: DefaultCustomScrollCursor(),
-            autoScrollDelay: const Duration(milliseconds: 60)),
+            autoScrollDelay: Duration(milliseconds: 60)),
         keyboardScrollConfig: KeyboardScrollConfig(
           homeScrollDurationBuilder: (currentScrollOffset, minScrollOffset) {
             return const Duration(milliseconds: 100);

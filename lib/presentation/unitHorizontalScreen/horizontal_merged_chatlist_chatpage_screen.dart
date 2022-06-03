@@ -1,13 +1,12 @@
 import 'dart:developer';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:telegram_flutter/core/utils/ext.dart';
 import 'package:telegram_flutter/gen/colors.gen.dart';
 import 'package:telegram_flutter/presentation/chatListPage/chat_list_page.dart';
 import 'package:telegram_flutter/presentation/chatPage/chat_page.dart';
+import 'package:telegram_flutter/presentation/unitHorizontalScreen/components/userprofile_dialog.dart';
 
-import '../../app/router.dart';
 import '../globalWidgets/advanceDrawerMenu/src/controller.dart';
 import '../globalWidgets/advanceDrawerMenu/src/widget.dart';
 
@@ -65,8 +64,15 @@ class MergedChatListChatPageScreenState
                   ),
                   child: GestureDetector(
                     onTap: () {
-                      log('going to route {USER_PROFILE}');
-                      Navigator.pushNamed(context, USER_PROFILE);
+                      log('Opining User Profile Dialog');
+                      showDialog(
+                          barrierColor: Colors.black45,
+                          context: context,
+                          builder: (context) {
+                            double width = MediaQuery.of(context).size.width;
+                            double height = MediaQuery.of(context).size.height;
+                            return UserDialog(height: height, width: width);
+                          });
                     },
                     child: Image.asset(
                       'assets/images/b.png',

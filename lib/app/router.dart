@@ -6,7 +6,6 @@ import 'package:telegram_flutter/presentation/userProfile/user_profile_screen.da
 
 const String EDIT_NAME_PAGE = "/editName";
 const String CHAT_PAGE = "/chat";
-const String USER_PROFILE = '/profile';
 
 class AppRouter {
   static SharedAxisTransition globalTransaction(
@@ -38,17 +37,6 @@ class AppRouter {
         return PageRouteBuilder(
           pageBuilder: (context, animation, secondaryAnimation) {
             return const MergedChatListChatPageScreen();
-          },
-          transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            return globalTransaction(
-                context, animation, secondaryAnimation, child);
-          },
-        );
-      case USER_PROFILE:
-        // return PageTransition(child: SplashScreen(), type: PUSH_ANIMATION);
-        return PageRouteBuilder(
-          pageBuilder: (context, animation, secondaryAnimation) {
-            return const UserProfileScreen();
           },
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return globalTransaction(

@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
       routes: {
         EDIT_NAME_PAGE: (context) => const EditNamePage(),
         CHAT_PAGE: (context) => const MergedChatListChatPageScreen(),
-        USER_PROFILE: (context) => const UserProfileScreen()
+        // USER_PROFILE: (context) => const UserProfileScreen()
       },
       onGenerateRoute: AppRouter().generateRoute,
     );

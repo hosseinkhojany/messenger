@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class UserProfileScreen extends StatelessWidget {
@@ -7,90 +8,80 @@ class UserProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
+    if (defaultTargetPlatform == TargetPlatform.android ||
+        defaultTargetPlatform == TargetPlatform.iOS) {
+      return _mobileUi();
+    }
+    if (defaultTargetPlatform == TargetPlatform.fuchsia ||
+        defaultTargetPlatform == TargetPlatform.linux ||
+        defaultTargetPlatform == TargetPlatform.macOS ||
+        defaultTargetPlatform == TargetPlatform.windows ||
+        kIsWeb) {
+      return _desktopAndWebUi(height: height, width: width);
+    }
+    return const Scaffold();
+  }
+
+// todo Imprlmrnt the mobile Ui design
+  _mobileUi() {
+    return const Scaffold();
+  }
+
+  _desktopAndWebUi({required double width, required double height}) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: SizedBox(
-        width: width,
-        height: height,
-        child: Stack(
-          children: [
-            Container(
-              width: width,
-              height: height * 0.5,
-              decoration: const BoxDecoration(
-                color: Colors.amber,
-                // todo This should give from user
-                image: DecorationImage(
-                  image: AssetImage('assets/images/bg.jpeg'),
-                  fit: BoxFit.fill,
-                ),
+      backgroundColor: Colors.white70.withOpacity(0.9),
+      body: Center(
+        child: SizedBox(
+          width: width * 0.9,
+          height: height * 0.9,
+          child: Card(
+            elevation: 15,
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(12),
               ),
             ),
-            Positioned(
-              top: height * 0.25,
-              left: width * 0.15,
-              child: SizedBox(
-                width: width * 0.7,
-                height: height * 0.6,
-                child: const Card(
-                  elevation: 15,
-                  // color: Colors.green,
-                ),
-              ),
-            ),
-            Positioned(
-              top: height * 0.12,
-              left: width * 0.43,
-              child: const SizedBox(
-                width: 200,
-                height: 200,
-                child: CircleAvatar(
-                  child: CircleAvatar(
-                    radius: 90,
-                    backgroundColor: Colors.red,
-                    child: FlutterLogo(
-                      size: 90,
+            child: Row(
+              children: [
+                // LEFT CARD
+                Expanded(
+                  child: Container(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        const CircleAvatar(
+                          radius: 70,
+                        ),
+                        const SizedBox(
+                          height: 8,
+                        ),
+                        Expanded(
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 5),
+                            color: Colors.green,
+                            child: Column(
+                              children: [
+                                
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
                     ),
                   ),
                 ),
-              ),
+                // right Card
+                Expanded(
+                  child: Container(color: Colors.red),
+                )
+              ],
             ),
-            Positioned(
-              right: width * 0.04,
-              top: height * 0.04,
-              child: const InkWell(
-                child: CircleAvatar(
-                  radius: 22,
-                  backgroundColor: Colors.amber,
-                  child: CircleAvatar(
-                    backgroundColor: Colors.red,
-                    child: Icon(
-                      Icons.camera_alt_rounded,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            Positioned(
-              top: height * 0.32,
-              left: width * 0.56,
-              child: const InkWell(
-                child: CircleAvatar(
-                  radius: 18,
-                  backgroundColor: Colors.amber,
-                  child: CircleAvatar(
-                    radius: 15,
-                    backgroundColor: Colors.red,
-                    child: Icon(
-                      Icons.camera_alt_rounded,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ),
-            )
-          ],
+            // color: Colors.red,
+          ),
         ),
       ),
     );
