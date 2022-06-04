@@ -32,7 +32,7 @@ jobs:
       - name: add required file for heroku
         run: |
           echo "<php " >> index.html
-          echo "<?php include_once(\"index.html\");" >> index.php
+          echo '<?php include_once("web\index.html");' >> index.php
           echo "web: vendor/bin/heroku-php-apache2 /web" >> Procfile
 
       - name: Commit to git
