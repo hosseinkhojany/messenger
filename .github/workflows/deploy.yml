@@ -56,9 +56,6 @@ jobs:
       - name: Add Heroku remote
         run: heroku git:remote --app $HEROKU_APP_NAME
 
-      - name: Add heroku build pack
-        run: heroku buildpacks:set heroku/php  
-
       - name: Push to Heroku
         run: git push heroku master
 
