@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Telegram Chat app',
+      title: 'Flutter Chat',
       initialBinding: GetxBinding(),
       // initialRoute: introPage,
       initialRoute: getInitialRoute(),
