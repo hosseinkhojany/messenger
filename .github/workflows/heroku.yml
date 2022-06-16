@@ -61,14 +61,3 @@ jobs:
 
       - name: Push to Heroku
         run: git push heroku master
-
-      - name: Send Telegram Message
-        uses: appleboy/telegram-action@master
-        with:
-          to: ${{ secrets.TG_TO }}
-          token: ${{ secrets.TG_TOKEN }}
-          format: "markdown"
-          message: |
-            *New Version of Messenger deployed to Heroku!*
-
-            [View the app](https://flutterchatting.herokuapp.com/)
