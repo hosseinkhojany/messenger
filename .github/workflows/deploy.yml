@@ -54,10 +54,7 @@ jobs:
           EOF
       
       - name: Add Heroku remote
-        run: heroku git:remote --app $HEROKU_APP_NAME
-
-      - name: Push to Heroku
-        run: git push heroku master 
+        run: heroku git:remote --app $HEROKU_APP_NAME 
 
       - name: Send Telegram Message
         uses: appleboy/telegram-action@master
