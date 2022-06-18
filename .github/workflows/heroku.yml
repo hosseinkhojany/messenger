@@ -31,8 +31,6 @@ jobs:
 
       - name: add required file for heroku
         run: |
-          echo "<php " >> index.html
-          echo '<?php include_once("web\index.html");' >> index.php
           echo "web: vendor/bin/heroku-php-apache2 /web" >> Procfile
 
       - name: Commit to git
@@ -57,7 +55,7 @@ jobs:
         run: heroku git:remote --app $HEROKU_APP_NAME
 
       - name: Push to Heroku
-        run: git push heroku master
+        run: git push -f heroku master
 
       - name: Send Telegram Message
         uses: appleboy/telegram-action@master
