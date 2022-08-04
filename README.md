@@ -6,6 +6,10 @@
 ![GitHub top language](https://img.shields.io/github/languages/top/hosseinkhojany/Telegram_Flutter)
 ![GitHub](https://img.shields.io/github/license/hosseinkhojany/Telegram_Flutter?color=yellow)
 
+## 🖥️ Desktop Mode
+![alt text](https://raw.githubusercontent.com/amanta-org/messenger/master/ARTS/desktop.png?raw=true)
+## 📱 Mobile Mode
+![alt text](https://raw.githubusercontent.com/amanta-org/messenger/master/ARTS/mobile.png?raw=true)
 
 ## ℹ️ About
 Our goal is to build, Multi platform chat application with high personalization capabilities and performance
