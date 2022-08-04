@@ -1,4 +1,4 @@
-# ⚡ Telegram Flutter
+# ⚡ Amanta Messenger
 
 ![GitHub repo size](https://img.shields.io/github/repo-size/hosseinkhojany/Telegram_Flutter?color=red&label=repository%20size)
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/hosseinkhojany/Telegram_Flutter?color=red)
